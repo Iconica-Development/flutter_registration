@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_registration/src/model/auth_action.dart';
 import 'package:flutter_registration/src/model/auth_field.dart';
 import 'package:flutter_registration/src/model/auth_step.dart';
-import 'package:flutter_registration/src/model/auth_theme.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({
@@ -43,8 +42,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var authTheme = AuthTheme.of(context);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -110,10 +107,9 @@ class _AuthScreenState extends State<AuthScreen> {
               child: Column(
                 children: [
                   ElevatedButton(
-                    style: authTheme.buttonStyle ??
-                        ElevatedButton.styleFrom(
-                          minimumSize: const Size.fromHeight(50),
-                        ),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(50),
+                    ),
                     onPressed: () {
                       if (!_formKey.currentState!.validate()) {
                         return;
