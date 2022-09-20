@@ -1,4 +1,4 @@
-library flutter_registration_example;
+library flutter_registration;
 
 export 'src/model/auth_exception.dart';
 export 'src/registration_screen.dart';
