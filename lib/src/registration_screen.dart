@@ -8,11 +8,13 @@ class RegistrationScreen extends StatelessWidget {
   const RegistrationScreen({
     required this.afterRegistration,
     required this.repository,
+    this.additionalSteps = const [],
     super.key,
   });
 
   final VoidCallback afterRegistration;
   final RegistrationRepository repository;
+  final List<AuthStep> additionalSteps;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +77,8 @@ class RegistrationScreen extends StatelessWidget {
               ],
             ),
           ],
-        )
+        ),
+        ...additionalSteps
       ],
       onFinish: (values) => register(
         values['email']!,
