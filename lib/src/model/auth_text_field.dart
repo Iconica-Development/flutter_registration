@@ -5,14 +5,15 @@ class AuthTextField extends AuthField {
   AuthTextField({
     required super.name,
     required super.title,
-    super.obscureText = false,
     super.validators = const [],
     super.value = '',
+    this.obscureText = false,
   }) {
     _textEditingController = TextEditingController();
   }
 
   late TextEditingController _textEditingController;
+  final bool obscureText;
 
   @override
   Widget build() => TextFormField(

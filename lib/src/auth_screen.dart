@@ -27,18 +27,6 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   int _index = 0;
   final _formKey = GlobalKey<FormState>();
-  final HashMap<AuthField, TextEditingController> _textEditingControllers =
-      HashMap();
-
-  @override
-  void initState() {
-    for (var step in widget.steps) {
-      for (var field in step.fields) {
-        _textEditingControllers[field] = TextEditingController();
-      }
-    }
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,23 +65,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 ),
                               ),
                             ),
-                            TextFormField(
-                              controller: _textEditingControllers[field],
-                              obscureText: field.obscureText,
-                              onChanged: (value) {
-                                field.value = value;
-                              },
-                              validator: (value) {
-                                for (var validator in field.validators) {
-                                  var output = validator(value);
-                                  if (output != null) {
-                                    return output;
-                                  }
-                                }
-
-                                return null;
-                              },
-                            ),
+                            field.build(),
                           ],
                         )
                     ],
