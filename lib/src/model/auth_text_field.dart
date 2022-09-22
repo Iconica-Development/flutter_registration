@@ -19,8 +19,8 @@ class AuthTextField extends AuthField {
   Widget build() => TextFormField(
         controller: _textEditingController,
         obscureText: obscureText,
-        onChanged: (value) {
-          value = value;
+        onChanged: (v) {
+          value = v;
         },
         validator: (value) {
           for (var validator in validators) {
