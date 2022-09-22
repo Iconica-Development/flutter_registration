@@ -1,4 +1,6 @@
-class AuthField {
+import 'package:flutter/material.dart';
+
+abstract class AuthField {
   AuthField({
     required this.name,
     required this.title,
@@ -12,4 +14,6 @@ class AuthField {
   final bool obscureText;
   List<String? Function(String?)> validators;
   String value;
+
+  Widget build();
 }

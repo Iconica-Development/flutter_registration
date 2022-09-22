@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_registration/flutter_registration.dart';
 import 'package:flutter_registration/src/auth_screen.dart';
-import 'package:flutter_registration/src/model/auth_field.dart';
-import 'package:flutter_registration/src/model/auth_step.dart';
+import 'package:flutter_registration/src/model/auth_text_field.dart';
 
 class RegistrationScreen extends StatelessWidget {
   const RegistrationScreen({
@@ -50,7 +49,7 @@ class RegistrationScreen extends StatelessWidget {
       steps: [
         AuthStep(
           fields: [
-            AuthField(
+            AuthTextField(
               name: 'email',
               title: 'Wat is je e-mailadres?',
               validators: [
@@ -66,7 +65,7 @@ class RegistrationScreen extends StatelessWidget {
         ),
         AuthStep(
           fields: [
-            AuthField(
+            AuthTextField(
               name: 'password',
               title: 'Kies een wachtwoord',
               obscureText: true,
