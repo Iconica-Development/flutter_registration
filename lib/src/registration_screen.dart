@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_registration/flutter_registration.dart';
 import 'package:flutter_registration/src/auth_screen.dart';
-import 'package:flutter_registration/src/model/auth_text_field.dart';
 
 class RegistrationScreen extends StatelessWidget {
   const RegistrationScreen({
@@ -30,8 +29,8 @@ class RegistrationScreen extends StatelessWidget {
           ),
         );
 
-    void register(String email, String password) => repository
-            .register(email, password)
+    void register(values) => repository
+            .register(values)
             .then(
               (value) => afterRegistration(),
             )
@@ -79,10 +78,7 @@ class RegistrationScreen extends StatelessWidget {
         ),
         ...additionalSteps
       ],
-      onFinish: (values) => register(
-        values['email']!,
-        values['password']!,
-      ),
+      onFinish: register,
     );
   }
 }

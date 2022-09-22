@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 mixin RegistrationRepository {
-  Future<void> register(String email, String password);
+  Future<void> register(HashMap values);
 }
