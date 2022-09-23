@@ -52,12 +52,14 @@ class RegistrationScreen extends StatelessWidget {
               name: 'email',
               title: 'Wat is je e-mailadres?',
               validators: [
-                (value) => (value == null || value.isEmpty)
+                (email) => (email == null || email.isEmpty)
                     ? 'Geef uw e-mailadres op'
                     : null,
-                (value) => !value!.contains('@')
-                    ? 'Geef een geldig e-mailadres op'
-                    : null,
+                (email) => RegExp(
+                      r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$',
+                    ).hasMatch(email!)
+                        ? 'Geef een geldig e-mailadres op'
+                        : null,
               ],
             )
           ],
