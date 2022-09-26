@@ -16,10 +16,13 @@ class FlutterRegistrationDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RegistrationScreen(
-      afterRegistration: () {
-        debugPrint('Registered!');
-      },
-      repository: ExampleRegistrationRepository(),
+      registrationOptions: RegistrationOptions(
+        registrationRepository: ExampleRegistrationRepository(),
+        registrationSteps: RegistrationOptions.defaultSteps,
+        afterRegistration: () {
+          debugPrint('Registered!');
+        },
+      ),
     );
   }
 }

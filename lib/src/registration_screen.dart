@@ -4,35 +4,38 @@ import 'package:flutter_registration/src/auth_screen.dart';
 
 class RegistrationScreen extends StatelessWidget {
   const RegistrationScreen({
-    required this.afterRegistration,
-    required this.repository,
-    this.additionalSteps = const [],
+    required this.registrationOptions,
     super.key,
   });
 
-  final VoidCallback afterRegistration;
-  final RegistrationRepository repository;
-  final List<AuthStep> additionalSteps;
+  final RegistrationOptions registrationOptions;
 
   @override
   Widget build(BuildContext context) {
+    var translations = registrationOptions.registrationTranslations;
+
     void showError(String error) => showDialog<String>(
           context: context,
           builder: (BuildContext context) => AlertDialog(
             content: Text(error),
             actions: <Widget>[
               TextButton(
-                onPressed: () => Navigator.pop(context, 'Sluit'),
-                child: const Text('Sluit'),
+                onPressed: () => Navigator.pop(
+                  context,
+                  translations.closeBtn,
+                ),
+                child: Text(
+                  translations.closeBtn,
+                ),
               ),
             ],
           ),
         );
 
-    void register(values) => repository
+    void register(values) => registrationOptions.registrationRepository
             .register(values)
             .then(
-              (value) => afterRegistration(),
+              (_) => registrationOptions.afterRegistration(),
             )
             .catchError(
           (error) {
@@ -43,44 +46,12 @@ class RegistrationScreen extends StatelessWidget {
         );
 
     return AuthScreen(
-      title: 'Registreren',
-      submitBtnTitle: 'Registreren',
-      steps: [
-        AuthStep(
-          fields: [
-            AuthTextField(
-              name: 'email',
-              title: 'Wat is je e-mailadres?',
-              validators: [
-                (email) => (email == null || email.isEmpty)
-                    ? 'Geef uw e-mailadres op'
-                    : null,
-                (email) =>
-                    RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            .hasMatch(email!)
-                        ? null
-                        : 'Geef een geldig e-mailadres op',
-              ],
-            )
-          ],
-        ),
-        AuthStep(
-          fields: [
-            AuthTextField(
-              name: 'password',
-              title: 'Kies een wachtwoord',
-              obscureText: true,
-              validators: [
-                (value) => (value == null || value.isEmpty)
-                    ? 'Geef een wachtwoord op'
-                    : null,
-              ],
-            ),
-          ],
-        ),
-        ...additionalSteps
-      ],
+      steps: registrationOptions.registrationSteps,
       onFinish: register,
+      title: translations.title,
+      submitBtnTitle: translations.registerBtn,
+      nextBtnTitle: translations.nextStepBtn,
+      previousBtnTitle: translations.previousStepBtn,
     );
   }
 }
