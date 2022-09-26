@@ -20,6 +20,7 @@ class RegistrationOptions {
             AuthTextField(
               name: 'email',
               title: 'Wat is je e-mailadres?',
+              hintText: 'iemand@voorbeeld.nl',
               validators: [
                 (email) => (email == null || email.isEmpty)
                     ? 'Geef uw e-mailadres op'

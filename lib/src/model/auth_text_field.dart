@@ -8,15 +8,20 @@ class AuthTextField extends AuthField {
     super.validators = const [],
     super.value = '',
     this.obscureText = false,
+    this.hintText,
   }) {
     _textEditingController = TextEditingController();
   }
 
   late TextEditingController _textEditingController;
   final bool obscureText;
+  final String? hintText;
 
   @override
   Widget build() => TextFormField(
+        decoration: InputDecoration(
+          hintText: hintText,
+        ),
         controller: _textEditingController,
         obscureText: obscureText,
         onChanged: (v) {
