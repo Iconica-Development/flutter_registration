@@ -55,11 +55,11 @@ class RegistrationScreen extends StatelessWidget {
                 (email) => (email == null || email.isEmpty)
                     ? 'Geef uw e-mailadres op'
                     : null,
-                (email) => RegExp(
-                      r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$',
-                    ).hasMatch(email!)
-                        ? 'Geef een geldig e-mailadres op'
-                        : null,
+                (email) =>
+                    RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(email!)
+                        ? null
+                        : 'Geef een geldig e-mailadres op',
               ],
             )
           ],
