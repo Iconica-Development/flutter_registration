@@ -14,34 +14,12 @@ class RegistrationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var translations = registrationOptions.registrationTranslations;
 
-    void showError(String error) => showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-            content: Text(error),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(
-                  context,
-                  translations.closeBtn,
-                ),
-                child: Text(
-                  translations.closeBtn,
-                ),
-              ),
-            ],
-          ),
-        );
-
-    void register(values) => registrationOptions.registrationRepository
-            .register(values)
-            .then(
-              (_) => registrationOptions.afterRegistration(),
-            )
-            .catchError(
-          (error) {
-            showError(
-              error.toString(),
-            );
+    void register(values) =>
+        registrationOptions.registrationRepository.register(values).then(
+          (response) {
+            if (response) {
+              registrationOptions.afterRegistration();
+            }
           },
         );
 
