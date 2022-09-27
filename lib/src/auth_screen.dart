@@ -15,7 +15,10 @@ class AuthScreen extends StatefulWidget {
   }) : assert(steps.length > 0, 'At least one step is required');
 
   final String title;
-  final Function(HashMap<String, String>) onFinish;
+  final Function({
+    required HashMap<String, String> values,
+    required VoidCallback onError,
+  }) onFinish;
   final List<AuthStep> steps;
   final String submitBtnTitle;
   final String nextBtnTitle;
@@ -119,6 +122,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                 return;
                               }
 
+                              FocusScope.of(context).unfocus();
+
                               if (widget.steps.last == step) {
                                 var values = HashMap<String, String>();
 
@@ -128,7 +133,14 @@ class _AuthScreenState extends State<AuthScreen> {
                                   }
                                 }
 
-                                widget.onFinish(values);
+                                widget.onFinish(
+                                  values: values,
+                                  onError: () => _pageController.animateToPage(
+                                    0,
+                                    duration: _animationDuration,
+                                    curve: _animationCurve,
+                                  ),
+                                );
 
                                 return;
                               }
