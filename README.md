@@ -1,32 +1,56 @@
-[![pub package](https://img.shields.io/pub/v/[PACKAGE NAME ON PUB].svg)](https://github.com/Iconica-Development) [![Build status](URL TO REPO)](URL TO GITHUB ACTIONS) [![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://github.com/tenhobi/effective_dart) 
+[![pub package](https://img.shields.io/pub/v/bottom_alert_dialog.svg)](https://github.com/Iconica-Development) [![Build status](https://github.com/Iconica-Development/flutter_registration)](https://github.com/Iconica-Development/flutter_registration/actions/new) [![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://github.com/tenhobi/effective_dart) 
 
-Short description of what your package is, why you created it. What issues it fixes and how it works. Also mention the available platforms
 
-## Setup
+Registration plug-in.
 
-What setup steps are neccesarry and why>
+## Install
 
-<details>
-<summary>PLATFORM</summary>
-    
-specific platform steps
+To use this package, add `flutter_registration` as a [dependency in your pubspec.yaml file](https://flutter.dev/docs/development/platform-integration/platform-channels).
 
-</details>
+## Configure
 
-## How to use
+To configure the registration plug-in use the ```RegistrationScreen``` widget.
 
-How can we use the package descibe the most common ways with examples in 
 ```dart
- codeblocks
-``` 
+void main() {
+  runApp(
+    MaterialApp(
+      home: RegistrationScreen(
+        registrationOptions: RegistrationOptions(
+          registrationRepository: ExampleRegistrationRepository(),
+          registrationSteps: RegistrationOptions.defaultSteps,
+          afterRegistration: () {
+            debugPrint('Registered!');
+          },
+        ),
+      ),
+    ),
+  );
+}
+```
+
+You are required to provide your own RegistrationRepository, this can be done using the parameter ```registrationRepository``` within the RegistrationsOptions which can be assigned to the RegistrationScreen widget. 
+
+A RegistrationRepository is responsible for sending the provided user details (email address and password for example) to an API.
+
+An example for creating a RegistrationRepository is specificied below:
+```dart
+class ExampleRegistrationRepository with RegistrationRepository {
+  @override
+  Future<bool> register(HashMap values) {
+    debugPrint('register: $values');
+    return Future.value(true);
+  }
+}
+```
 
 ## Issues
 
-Please file any issues, bugs or feature request as an issue on our [GitHub](REPO URL) page. Commercial support is available if you need help with integration with your app or services. You can contact us at [support@iconica.nl](mailto:support@iconica.nl).
+Please file any issues, bugs or feature request as an issue on our [GitHub](https://github.com/Iconica-Development/flutter_registration) page. Commercial support is available if you need help with integration with your app or services. You can contact us at [support@iconica.nl](mailto:support@iconica.nl).
 
 ## Want to contribute
 
-If you would like to contribute to the plugin (e.g. by improving the documentation, solving a bug or adding a cool new feature), please carefully review our [contribution guide](./CONTRIBUTING.md) and send us your [pull request](URL TO PULL REQUEST TAB IN REPO).
+If you would like to contribute to the plugin (e.g. by improving the documentation, solving a bug or adding a cool new feature), please carefully review our [contribution guide](./CONTRIBUTING.md) and send us your [pull request](https://github.com/Iconica-Development/flutter_registration/pulls).
 
 ## Author
 
