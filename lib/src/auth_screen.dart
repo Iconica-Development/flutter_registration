@@ -11,6 +11,7 @@ class AuthScreen extends StatefulWidget {
     required this.nextBtnTitle,
     required this.previousBtnTitle,
     required this.onFinish,
+    this.customAppBar,
     super.key,
   }) : assert(steps.length > 0, 'At least one step is required');
 
@@ -23,6 +24,7 @@ class AuthScreen extends StatefulWidget {
   final String submitBtnTitle;
   final String nextBtnTitle;
   final String previousBtnTitle;
+  final AppBar? customAppBar;
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -34,12 +36,16 @@ class _AuthScreenState extends State<AuthScreen> {
   final _animationDuration = const Duration(milliseconds: 300);
   final _animationCurve = Curves.ease;
 
+  AppBar get _appBar =>
+      widget.customAppBar ??
+      AppBar(
+        title: Text(widget.title),
+      );
+
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
+        appBar: _appBar,
         body: Form(
           key: _formKey,
           child: PageView(

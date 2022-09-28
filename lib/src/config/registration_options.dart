@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_registration/flutter_registration.dart';
 
 class RegistrationOptions {
@@ -7,12 +7,14 @@ class RegistrationOptions {
     required this.registrationSteps,
     required this.afterRegistration,
     this.registrationTranslations = const RegistrationTranslations(),
+    this.customAppbarBuilder,
   });
 
   final RegistrationTranslations registrationTranslations;
   final List<AuthStep> registrationSteps;
   final VoidCallback afterRegistration;
   final RegistrationRepository registrationRepository;
+  final AppBar Function(String title)? customAppbarBuilder;
 
   static List<AuthStep> get defaultSteps => [
         AuthStep(

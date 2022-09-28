@@ -32,6 +32,9 @@ class RegistrationScreen extends StatelessWidget {
 
     return AuthScreen(
       steps: registrationOptions.registrationSteps,
+      customAppBar: registrationOptions.customAppbarBuilder?.call(
+        translations.title,
+      ),
       onFinish: register,
       title: translations.title,
       submitBtnTitle: translations.registerBtn,
