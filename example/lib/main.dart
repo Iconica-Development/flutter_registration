@@ -22,7 +22,7 @@ class FlutterRegistrationDemo extends StatelessWidget {
     return RegistrationScreen(
       registrationOptions: RegistrationOptions(
         registrationRepository: ExampleRegistrationRepository(),
-        registrationSteps: RegistrationOptions.defaultSteps,
+        registrationSteps: RegistrationOptions.getDefaultSteps(),
         afterRegistration: () {
           debugPrint('Registered!');
         },
