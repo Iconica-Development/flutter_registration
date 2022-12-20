@@ -4,18 +4,18 @@
 
 class RegistrationTranslations {
   const RegistrationTranslations({
-    this.title = 'Registreren',
-    this.registerBtn = 'Registreren',
-    this.previousStepBtn = 'Vorige stap',
-    this.nextStepBtn = 'Volgende stap',
-    this.closeBtn = 'Sluiten',
-    this.defaultEmailTitle = 'Wat is je e-mailadres?',
-    this.defaultEmailHint = 'iemand@voorbeeld.nl',
-    this.defaultEmailEmpty = 'Geef uw e-mailadres op',
-    this.defaultEmailValidatorMessage = 'Geef een geldig e-mailadres op',
-    this.defaultPasswordTitle = 'Kies een wachtwoord',
+    this.title = 'Register',
+    this.registerBtn = 'Register',
+    this.previousStepBtn = 'Previous',
+    this.nextStepBtn = 'Next',
+    this.closeBtn = 'Close',
+    this.defaultEmailTitle = 'What is your email?',
+    this.defaultEmailHint = 'john.doe@domain.com',
+    this.defaultEmailEmpty = 'Enter your email',
+    this.defaultEmailValidatorMessage = 'Enter a valid email address',
+    this.defaultPasswordTitle = 'Enter a password',
     this.defaultPasswordHint = '',
-    this.defaultPasswordValidatorMessage = 'Geef een wachtwoord op',
+    this.defaultPasswordValidatorMessage = 'Enter a valid password',
   });
 
   final String title;
