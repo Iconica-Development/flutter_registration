@@ -24,7 +24,13 @@ class FlutterRegistrationDemo extends StatelessWidget {
         registrationRepository: ExampleRegistrationRepository(),
         registrationSteps: RegistrationOptions.getDefaultSteps(),
         afterRegistration: () {
-          debugPrint('Registered!');
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) {
+                return const ProtectedScreen();
+              },
+            ),
+          );
         },
       ),
     );
@@ -36,9 +42,12 @@ class ProtectedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('FlutterRegistrationDemo'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Demo'),
+      ),
+      body: const Center(
+        child: Text('Registration succesful'),
       ),
     );
   }
