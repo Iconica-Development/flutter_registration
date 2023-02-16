@@ -16,6 +16,8 @@ class AuthScreen extends StatefulWidget {
     required this.previousBtnTitle,
     required this.onFinish,
     this.customAppBar,
+    this.nextButtonBuilder,
+    this.previousButtonBuilder,
     super.key,
   }) : assert(steps.length > 0, 'At least one step is required');
 
@@ -29,6 +31,10 @@ class AuthScreen extends StatefulWidget {
   final String nextBtnTitle;
   final String previousBtnTitle;
   final AppBar? customAppBar;
+  final Widget Function(VoidCallback onPressed, String label)?
+      nextButtonBuilder;
+  final Widget Function(VoidCallback onPressed, String label)?
+      previousButtonBuilder;
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -46,9 +52,52 @@ class _AuthScreenState extends State<AuthScreen> {
         title: Text(widget.title),
       );
 
+  void onPrevious() {
+    _pageController.previousPage(
+      duration: _animationDuration,
+      curve: _animationCurve,
+    );
+  }
+
+  void onNext(AuthStep step) {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    _formKey.currentState!.save();
+
+    FocusScope.of(context).unfocus();
+
+    if (widget.steps.last == step) {
+      var values = HashMap<String, String>();
+
+      for (var step in widget.steps) {
+        for (var field in step.fields) {
+          values[field.name] = field.value;
+        }
+      }
+
+      widget.onFinish(
+        values: values,
+        onError: () => _pageController.animateToPage(
+          0,
+          duration: _animationDuration,
+          curve: _animationCurve,
+        ),
+      );
+
+      return;
+    } else {
+      _pageController.nextPage(
+        duration: _animationDuration,
+        curve: _animationCurve,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: _appBar,
         body: Form(
           key: _formKey,
@@ -75,18 +124,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        top: 24.0,
-                                        bottom: 12.0,
-                                      ),
-                                      child: Text(
-                                        field.title,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
+                                    if (field.title != null) ...[
+                                      field.title!,
+                                    ],
                                     field.build(),
                                   ],
                                 ),
@@ -108,75 +148,53 @@ class _AuthScreenState extends State<AuthScreen> {
                             : MainAxisAlignment.end,
                         children: [
                           if (widget.steps.first != step)
-                            ElevatedButton(
-                              onPressed: () => _pageController.previousPage(
-                                duration: _animationDuration,
-                                curve: _animationCurve,
-                              ),
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.arrow_back,
-                                    size: 18,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 4.0),
-                                    child: Text(widget.previousBtnTitle),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ElevatedButton(
-                            onPressed: () {
-                              if (!_formKey.currentState!.validate()) {
-                                return;
-                              }
-
-                              FocusScope.of(context).unfocus();
-
-                              if (widget.steps.last == step) {
-                                var values = HashMap<String, String>();
-
-                                for (var step in widget.steps) {
-                                  for (var field in step.fields) {
-                                    values[field.name] = field.value;
-                                  }
-                                }
-
-                                widget.onFinish(
-                                  values: values,
-                                  onError: () => _pageController.animateToPage(
-                                    0,
-                                    duration: _animationDuration,
-                                    curve: _animationCurve,
-                                  ),
-                                );
-
-                                return;
-                              }
-
-                              _pageController.nextPage(
-                                duration: _animationDuration,
-                                curve: _animationCurve,
-                              );
-                            },
-                            child: Row(
-                              children: [
-                                Text(
-                                  widget.steps.last == step
-                                      ? widget.submitBtnTitle
-                                      : widget.nextBtnTitle,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 4.0),
-                                  child: Icon(
-                                    Icons.arrow_forward,
-                                    size: 18,
+                            widget.previousButtonBuilder?.call(
+                                  onPrevious,
+                                  widget.previousBtnTitle,
+                                ) ??
+                                ElevatedButton(
+                                  onPressed: onPrevious,
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.arrow_back,
+                                        size: 18,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 4.0),
+                                        child: Text(widget.previousBtnTitle),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
+                          widget.nextButtonBuilder?.call(
+                                () => onNext(step),
+                                widget.steps.last == step
+                                    ? widget.submitBtnTitle
+                                    : widget.nextBtnTitle,
+                              ) ??
+                              ElevatedButton(
+                                onPressed: () {
+                                  onNext(step);
+                                },
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      widget.steps.last == step
+                                          ? widget.submitBtnTitle
+                                          : widget.nextBtnTitle,
+                                    ),
+                                    const Padding(
+                                      padding: EdgeInsets.only(left: 4.0),
+                                      child: Icon(
+                                        Icons.arrow_forward,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                         ],
                       ),
                     )

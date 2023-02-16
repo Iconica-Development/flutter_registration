@@ -44,6 +44,8 @@ class RegistrationScreen extends StatelessWidget {
       submitBtnTitle: translations.registerBtn,
       nextBtnTitle: translations.nextStepBtn,
       previousBtnTitle: translations.previousStepBtn,
+      nextButtonBuilder: registrationOptions.nextButtonBuilder,
+      previousButtonBuilder: registrationOptions.previousButtonBuilder,
     );
   }
 }
