@@ -31,6 +31,7 @@ class RegistrationOptions {
     Function(String title)? titleBuilder,
     Function(String label)? labelBuilder,
     TextStyle? textStyle,
+    String? initialEmail,
   }) {
     var password1 = '';
 
@@ -39,6 +40,7 @@ class RegistrationOptions {
         fields: [
           AuthTextField(
             name: 'email',
+            value: initialEmail ?? '',
             title: titleBuilder?.call(
                   translations.defaultEmailTitle,
                 ) ??
