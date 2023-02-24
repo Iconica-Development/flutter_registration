@@ -4,20 +4,20 @@
 
 name: flutter_registration
 description: A Flutter Registration package
-version: 0.2.0
+version: 0.3.0
 repository: https://github.com/Iconica-Development/flutter_registration
 
 environment:
-  sdk: '>=2.18.0 <3.0.0'
+  sdk: ">=2.18.0 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
-    sdk: flutter 
+    sdk: flutter
   flutter_hooks: any
-  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -17,7 +17,7 @@ class AuthTextField extends AuthField {
     this.textStyle,
     this.onChange,
   }) {
-    _textEditingController = TextEditingController();
+    _textEditingController = TextEditingController(text: value);
   }
 
   late TextEditingController _textEditingController;
