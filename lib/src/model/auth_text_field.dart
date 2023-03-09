@@ -8,6 +8,7 @@ import 'package:flutter_registration/flutter_registration.dart';
 class AuthTextField extends AuthField {
   AuthTextField({
     required super.name,
+    TextEditingController? textEditingController,
     super.title,
     super.validators = const [],
     super.value = '',
@@ -16,39 +17,67 @@ class AuthTextField extends AuthField {
     this.label,
     this.textStyle,
     this.onChange,
+    this.hidden,
+    this.onPassChanged,
   }) {
-    _textEditingController = TextEditingController(text: value);
+    textController =
+        textEditingController ?? TextEditingController(text: value);
   }
 
-  late TextEditingController _textEditingController;
+  late TextEditingController textController;
   final bool obscureText;
   final String? hintText;
   final Widget? label;
   final TextStyle? textStyle;
   final Function(String value)? onChange;
+  final bool? hidden;
+  final Function(bool value)? onPassChanged;
 
   @override
-  Widget build() => TextFormField(
-        style: textStyle,
-        decoration: InputDecoration(
-          label: label,
-          hintText: hintText,
-        ),
-        controller: _textEditingController,
-        obscureText: obscureText,
-        onChanged: (v) {
-          value = v;
-          onChange?.call(value);
-        },
-        validator: (value) {
-          for (var validator in validators) {
-            var output = validator(value);
-            if (output != null) {
-              return output;
-            }
-          }
+  Widget build() {
+    Widget? suffix;
 
-          return null;
-        },
-      );
+    if (hidden != null) {
+      if (hidden!) {
+        suffix = GestureDetector(
+          onTap: () {
+            onPassChanged?.call(!hidden!);
+          },
+          child: const Icon(Icons.visibility),
+        );
+      } else {
+        suffix = GestureDetector(
+          onTap: () {
+            onPassChanged?.call(!hidden!);
+          },
+          child: const Icon(Icons.visibility_off),
+        );
+      }
+    }
+
+    return TextFormField(
+      style: textStyle,
+      decoration: InputDecoration(
+        label: label,
+        hintText: hintText,
+        suffix: suffix,
+      ),
+      controller: textController,
+      obscureText: hidden ?? obscureText,
+      onChanged: (v) {
+        value = v;
+        onChange?.call(value);
+      },
+      validator: (value) {
+        for (var validator in validators) {
+          var output = validator(value);
+          if (output != null) {
+            return output;
+          }
+        }
+
+        return null;
+      },
+    );
+  }
 }

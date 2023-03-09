@@ -27,6 +27,12 @@ class RegistrationOptions {
       previousButtonBuilder;
 
   static List<AuthStep> getDefaultSteps({
+    TextEditingController? emailController,
+    TextEditingController? pass1Controller,
+    bool pass1Hidden = true,
+    TextEditingController? pass2Controller,
+    bool pass2Hidden = true,
+    Function(bool mainPass, bool value)? passHideOnChange,
     RegistrationTranslations translations = const RegistrationTranslations(),
     Function(String title)? titleBuilder,
     Function(String label)? labelBuilder,
@@ -40,6 +46,7 @@ class RegistrationOptions {
         fields: [
           AuthTextField(
             name: 'email',
+            textEditingController: emailController,
             value: initialEmail ?? '',
             title: titleBuilder?.call(
                   translations.defaultEmailTitle,
@@ -76,6 +83,7 @@ class RegistrationOptions {
         fields: [
           AuthTextField(
             name: 'password1',
+            textEditingController: pass1Controller,
             title: titleBuilder?.call(
                   translations.defaultPassword1Title,
                 ) ??
@@ -103,18 +111,36 @@ class RegistrationOptions {
             onChange: (value) {
               password1 = value;
             },
+            hidden: pass1Hidden,
+            onPassChanged: (value) {
+              passHideOnChange?.call(true, value);
+            },
           ),
           AuthTextField(
             name: 'password2',
+            textEditingController: pass2Controller,
             label: labelBuilder?.call(translations.defaultPassword2Label),
             hintText: translations.defaultPassword2Hint,
             textStyle: textStyle,
             obscureText: true,
             validators: [
-              (value) => (value != password1)
-                  ? translations.defaultPassword2ValidatorMessage
-                  : null,
+              (value) {
+                if (pass1Controller != null) {
+                  if (value != pass1Controller.value.text) {
+                    return translations.defaultPassword2ValidatorMessage;
+                  }
+                } else {
+                  if (value != password1) {
+                    return translations.defaultPassword2ValidatorMessage;
+                  }
+                }
+                return null;
+              }
             ],
+            hidden: pass2Hidden,
+            onPassChanged: (value) {
+              passHideOnChange?.call(false, value);
+            },
           ),
         ],
       ),
