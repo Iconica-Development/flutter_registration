@@ -4,8 +4,7 @@
 
 import 'dart:collection';
 import 'package:flutter/material.dart';
-import 'package:flutter_registration/src/model/auth_field.dart';
-import 'package:flutter_registration/src/model/auth_step.dart';
+import 'package:flutter_registration/flutter_registration.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({
@@ -73,7 +72,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
       for (var step in widget.steps) {
         for (var field in step.fields) {
-          values[field.name] = field.value;
+          values[field.name] =
+              (field as AuthTextField).textController.value.text;
         }
       }
 
