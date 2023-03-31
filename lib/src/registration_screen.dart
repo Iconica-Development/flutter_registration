@@ -16,23 +16,24 @@ class RegistrationScreen extends StatelessWidget {
 
   final RegistrationOptions registrationOptions;
 
+  Future<void> register({
+    required HashMap<String, String> values,
+    required VoidCallback onError,
+  }) async {
+    try {
+      var registered =
+          await registrationOptions.registrationRepository.register(values);
+      if (registered) {
+        registrationOptions.afterRegistration();
+      }
+    } catch (e) {
+      onError();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var translations = registrationOptions.registrationTranslations;
-
-    void register({
-      required HashMap<String, String> values,
-      required VoidCallback onError,
-    }) =>
-        registrationOptions.registrationRepository.register(values).then(
-          (response) {
-            if (response) {
-              registrationOptions.afterRegistration();
-            }
-          },
-        ).catchError((_) {
-          onError();
-        });
 
     return AuthScreen(
       steps: registrationOptions.registrationSteps,
