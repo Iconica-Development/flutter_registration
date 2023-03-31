@@ -1,13 +1,17 @@
 [![pub package](https://img.shields.io/pub/v/bottom_alert_dialog.svg)](https://github.com/Iconica-Development) [![Build status](https://github.com/Iconica-Development/flutter_registration)](https://github.com/Iconica-Development/flutter_registration/actions/new) [![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://github.com/tenhobi/effective_dart) 
 
+# Flutter Registration
 
-Registration plug-in.
+Flutter Registration is a package to easily implement
+a registration flow in your app.
 
-## Install
+![Registration GIF](flutter_registration.gif)
 
-To use this package, add `flutter_registration` as a [dependency in your pubspec.yaml file](https://flutter.dev/docs/development/platform-integration/platform-channels).
+## Setup
 
-## Configure
+To use this package, add `flutter_registration` as a dependency in your pubspec.yaml file.
+
+## How to use
 
 To configure the registration plug-in use the ```RegistrationScreen``` widget.
 
@@ -44,6 +48,8 @@ class ExampleRegistrationRepository with RegistrationRepository {
 }
 ```
 
+See the [Example Code](example/lib/main.dart) for an example on how to use this package.
+
 ## Issues
 
 Please file any issues, bugs or feature request as an issue on our [GitHub](https://github.com/Iconica-Development/flutter_registration) page. Commercial support is available if you need help with integration with your app or services. You can contact us at [support@iconica.nl](mailto:support@iconica.nl).
@@ -54,4 +60,4 @@ If you would like to contribute to the plugin (e.g. by improving the documentati
 
 ## Author
 
-This flutter_registration for Flutter is developed by [Iconica](https://iconica.nl). You can contact us at <support@iconica.nl>
+This `flutter_registration` for Flutter is developed by [Iconica](https://iconica.nl). You can contact us at <support@iconica.nl>
