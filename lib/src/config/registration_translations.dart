@@ -4,23 +4,24 @@
 
 class RegistrationTranslations {
   const RegistrationTranslations({
-    this.title = 'Registreren',
-    this.registerBtn = 'Registreren',
-    this.previousStepBtn = 'Vorige stap',
-    this.nextStepBtn = 'Volgende stap',
-    this.closeBtn = 'Sluiten',
-    this.defaultEmailTitle = 'Wat is je e-mailadres?',
+    this.title = 'Register',
+    this.registerBtn = 'Register',
+    this.previousStepBtn = 'Previous',
+    this.nextStepBtn = 'Next',
+    this.closeBtn = 'Close',
+    this.defaultEmailTitle = 'What is your email?',
     this.defaultEmailLabel = '',
-    this.defaultEmailHint = 'iemand@voorbeeld.nl',
-    this.defaultEmailEmpty = 'Geef uw e-mailadres op',
-    this.defaultEmailValidatorMessage = 'Geef een geldig e-mailadres op',
-    this.defaultPassword1Title = 'Kies een wachtwoord',
+    this.defaultEmailHint = 'john.doe@domain.com',
+    this.defaultEmailEmpty = 'Enter your email',
+    this.defaultEmailValidatorMessage = 'Enter a valid email address',
+    this.defaultPassword1Title = 'Enter a password',
     this.defaultPassword1Label = '',
     this.defaultPassword1Hint = '',
-    this.defaultPassword1ValidatorMessage = 'Geef een wachtwoord op',
+    this.defaultPassword1ValidatorMessage = 'Enter a valid password',
+    this.defaultPassword2Title = 'Re-enter password',
     this.defaultPassword2Label = '',
     this.defaultPassword2Hint = '',
-    this.defaultPassword2ValidatorMessage = 'Wachtwoorden moeten gelijk zijn',
+    this.defaultPassword2ValidatorMessage = 'Passwords have to be equal',
   });
 
   final String title;
@@ -37,6 +38,7 @@ class RegistrationTranslations {
   final String defaultPassword1Label;
   final String defaultPassword1Hint;
   final String defaultPassword1ValidatorMessage;
+  final String defaultPassword2Title;
   final String defaultPassword2Label;
   final String defaultPassword2Hint;
   final String defaultPassword2ValidatorMessage;

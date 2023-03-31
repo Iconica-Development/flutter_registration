@@ -4,6 +4,16 @@ SPDX-FileCopyrightText: 2022 Iconica
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
+# 0.5.0
+
+- feat: add customBackgroundColor to AuthScreen
+- fix: fix linter
+- fix: fix translations to English
+
+# 0.4.0 
+
+- feat: Added the abilty to show and hide the passwords
+
 ## 0.3.0
 
 - Added the abilty to set an initial value fot the default email field

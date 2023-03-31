@@ -119,6 +119,21 @@ class RegistrationOptions {
           AuthTextField(
             name: 'password2',
             textEditingController: pass2Controller,
+            title: titleBuilder?.call(
+                  translations.defaultPassword2Title,
+                ) ??
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 24.0,
+                    bottom: 12.0,
+                  ),
+                  child: Text(
+                    translations.defaultPassword2Title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
             label: labelBuilder?.call(translations.defaultPassword2Label),
             hintText: translations.defaultPassword2Hint,
             textStyle: textStyle,
