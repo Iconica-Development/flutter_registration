@@ -11,13 +11,16 @@ class RegistrationOptions {
     required this.registrationSteps,
     required this.afterRegistration,
     this.registrationTranslations = const RegistrationTranslations(),
+    this.onError,
     this.customAppbarBuilder,
     this.nextButtonBuilder,
     this.previousButtonBuilder,
+    this.backgroundColor,
   });
 
   final RegistrationTranslations registrationTranslations;
   final List<AuthStep> registrationSteps;
+  final VoidCallback? onError;
   final VoidCallback afterRegistration;
   final RegistrationRepository registrationRepository;
   final AppBar Function(String title)? customAppbarBuilder;
@@ -25,6 +28,7 @@ class RegistrationOptions {
       nextButtonBuilder;
   final Widget Function(VoidCallback onPressed, String label)?
       previousButtonBuilder;
+  final Color? backgroundColor;
 
   static List<AuthStep> getDefaultSteps({
     TextEditingController? emailController,
