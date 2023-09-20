@@ -23,10 +23,11 @@ class RegistrationScreen extends StatelessWidget {
     try {
       var registered =
           await registrationOptions.registrationRepository.register(values);
-      if (registered) {
+
+      if (registered == null) {
         registrationOptions.afterRegistration();
       } else {
-        registrationOptions.onError?.call();
+        registrationOptions.onError?.call(registered);
         onError();
       }
     } catch (e) {

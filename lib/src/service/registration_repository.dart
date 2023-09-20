@@ -5,5 +5,5 @@
 import 'dart:collection';
 
 mixin RegistrationRepository {
-  Future<bool> register(HashMap values);
+  Future<String?> register(HashMap values);
 }
