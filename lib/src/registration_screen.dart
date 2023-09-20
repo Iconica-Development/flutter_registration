@@ -23,8 +23,12 @@ class RegistrationScreen extends StatelessWidget {
     try {
       var registered =
           await registrationOptions.registrationRepository.register(values);
-      if (registered) {
+
+      if (registered == null) {
         registrationOptions.afterRegistration();
+      } else {
+        registrationOptions.onError?.call(registered);
+        onError();
       }
     } catch (e) {
       onError();
@@ -47,6 +51,7 @@ class RegistrationScreen extends StatelessWidget {
       previousBtnTitle: translations.previousStepBtn,
       nextButtonBuilder: registrationOptions.nextButtonBuilder,
       previousButtonBuilder: registrationOptions.previousButtonBuilder,
+      customBackgroundColor: registrationOptions.backgroundColor,
     );
   }
 }

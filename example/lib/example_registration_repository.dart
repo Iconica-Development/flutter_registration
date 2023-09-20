@@ -9,8 +9,8 @@ import 'package:flutter_registration/flutter_registration.dart';
 
 class ExampleRegistrationRepository with RegistrationRepository {
   @override
-  Future<bool> register(HashMap values) {
+  Future<String?> register(HashMap values) {
     debugPrint('register: $values');
-    return Future.value(true);
+    return Future.value(null);
   }
 }

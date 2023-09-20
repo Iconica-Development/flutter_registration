@@ -4,6 +4,11 @@ SPDX-FileCopyrightText: 2022 Iconica
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
+# 1.0.0
+
+- feat: Added an onError function.
+- feat: Register function in RegistrationRepository can now return a nullable string. Works like a validator.
+
 # 0.5.0
 
 - feat: add customBackgroundColor to AuthScreen
