@@ -20,7 +20,7 @@ class RegistrationOptions {
 
   final RegistrationTranslations registrationTranslations;
   final List<AuthStep> registrationSteps;
-  final bool? Function(String error)? onError;
+  final int? Function(String error)? onError;
   final VoidCallback afterRegistration;
   final RegistrationRepository registrationRepository;
   final AppBar Function(String title)? customAppbarBuilder;

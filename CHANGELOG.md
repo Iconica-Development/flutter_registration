@@ -5,7 +5,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 -->
 # 1.1.0
 
-- feat: Added the ability to not go back to the first page on error
+- feat: Added the ability to go to specific page on error
 
 # 1.0.0
 

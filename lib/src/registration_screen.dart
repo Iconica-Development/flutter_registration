@@ -18,7 +18,7 @@ class RegistrationScreen extends StatelessWidget {
 
   Future<void> register({
     required HashMap<String, String> values,
-    required VoidCallback onError,
+    required void Function(int? pageToReturn) onError,
   }) async {
     try {
       var registered =
@@ -27,14 +27,12 @@ class RegistrationScreen extends StatelessWidget {
       if (registered == null) {
         registrationOptions.afterRegistration();
       } else {
-        var returnToFirstPage = registrationOptions.onError?.call(registered);
+        var pageToReturn = registrationOptions.onError?.call(registered);
 
-        if (returnToFirstPage ?? true) {
-          onError();
-        }
+        onError(pageToReturn);
       }
     } catch (e) {
-      onError();
+      onError(0);
     }
   }
 
