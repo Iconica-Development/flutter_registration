@@ -3,6 +3,9 @@ SPDX-FileCopyrightText: 2022 Iconica
 
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
+# 1.1.0
+
+- feat: Added the ability to not go back to the first page on error
 
 # 1.0.0
 
