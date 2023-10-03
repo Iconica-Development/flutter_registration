@@ -27,8 +27,11 @@ class RegistrationScreen extends StatelessWidget {
       if (registered == null) {
         registrationOptions.afterRegistration();
       } else {
-        registrationOptions.onError?.call(registered);
-        onError();
+        var returnToFirstPage = registrationOptions.onError?.call(registered);
+
+        if (returnToFirstPage ?? true) {
+          onError();
+        }
       }
     } catch (e) {
       onError();
