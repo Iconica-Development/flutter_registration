@@ -3,6 +3,9 @@ SPDX-FileCopyrightText: 2022 Iconica
 
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
+# 1.1.0
+
+- feat: Added the ability to go to specific page on error
 
 # 1.0.0
 

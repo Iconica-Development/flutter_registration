@@ -24,7 +24,7 @@ class AuthScreen extends StatefulWidget {
   final String title;
   final Function({
     required HashMap<String, String> values,
-    required VoidCallback onError,
+    required void Function(int? pageToReturn) onError,
   }) onFinish;
   final List<AuthStep> steps;
   final String submitBtnTitle;
@@ -79,8 +79,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
       widget.onFinish(
         values: values,
-        onError: () => _pageController.animateToPage(
-          0,
+        onError: (int? pageToReturn) => _pageController.animateToPage(
+          pageToReturn ?? 0,
           duration: _animationDuration,
           curve: _animationCurve,
         ),
