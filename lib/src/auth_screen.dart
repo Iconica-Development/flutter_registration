@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 
+import 'dart:async';
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_registration/flutter_registration.dart';
@@ -22,7 +23,7 @@ class AuthScreen extends StatefulWidget {
   }) : assert(steps.length > 0, 'At least one step is required');
 
   final String title;
-  final Function({
+  final Future<void> Function({
     required HashMap<String, String> values,
     required void Function(int? pageToReturn) onError,
   }) onFinish;
@@ -32,7 +33,7 @@ class AuthScreen extends StatefulWidget {
   final String previousBtnTitle;
   final AppBar? customAppBar;
   final Color? customBackgroundColor;
-  final Widget Function(VoidCallback, String)? nextButtonBuilder;
+  final Widget Function(Future<void> Function(), String)? nextButtonBuilder;
   final Widget Function(VoidCallback, String)? previousButtonBuilder;
 
   @override
@@ -58,7 +59,7 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  void onNext(AuthStep step) {
+  Future<void> onNext(AuthStep step) async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -77,7 +78,7 @@ class _AuthScreenState extends State<AuthScreen> {
         }
       }
 
-      widget.onFinish(
+      await widget.onFinish(
         values: values,
         onError: (int? pageToReturn) => _pageController.animateToPage(
           pageToReturn ?? 0,
@@ -169,14 +170,16 @@ class _AuthScreenState extends State<AuthScreen> {
                                 ),
                               ),
                         widget.nextButtonBuilder?.call(
-                              () => onNext(step),
+                              () async {
+                                await onNext(step);
+                              },
                               widget.steps.last == step
                                   ? widget.submitBtnTitle
                                   : widget.nextBtnTitle,
                             ) ??
                             ElevatedButton(
-                              onPressed: () {
-                                onNext(step);
+                              onPressed: () async {
+                                await onNext(step);
                               },
                               child: Row(
                                 children: [

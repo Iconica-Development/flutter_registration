@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_registration/flutter_registration.dart';
 
@@ -24,7 +26,7 @@ class RegistrationOptions {
   final VoidCallback afterRegistration;
   final RegistrationRepository registrationRepository;
   final AppBar Function(String title)? customAppbarBuilder;
-  final Widget Function(VoidCallback onPressed, String label)?
+  final Widget Function(Future<void> Function() onPressed, String label)?
       nextButtonBuilder;
   final Widget Function(VoidCallback onPressed, String label)?
       previousButtonBuilder;
