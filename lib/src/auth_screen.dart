@@ -34,7 +34,7 @@ class AuthScreen extends StatefulWidget {
   final AppBar? customAppBar;
   final Color? customBackgroundColor;
   final Widget Function(Future<void> Function(), String)? nextButtonBuilder;
-  final Widget Function(VoidCallback, String)? previousButtonBuilder;
+  final Widget? Function(VoidCallback, String)? previousButtonBuilder;
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -98,6 +98,11 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var previousButton = widget.previousButtonBuilder?.call(
+      onPrevious,
+      widget.previousBtnTitle,
+    );
+
     return Scaffold(
       backgroundColor: widget.customBackgroundColor ?? Colors.white,
       appBar: _appBar,
@@ -145,30 +150,34 @@ class _AuthScreenState extends State<AuthScreen> {
                       right: 30.0,
                     ),
                     child: Row(
-                      mainAxisAlignment: widget.steps.first != step
-                          ? MainAxisAlignment.spaceBetween
-                          : MainAxisAlignment.end,
+                      mainAxisAlignment:
+                          (widget.previousButtonBuilder != null &&
+                                  previousButton == null)
+                              ? MainAxisAlignment.spaceAround
+                              : widget.steps.first != step
+                                  ? MainAxisAlignment.spaceBetween
+                                  : MainAxisAlignment.end,
                       children: [
                         if (widget.steps.first != step)
-                          widget.previousButtonBuilder?.call(
-                                onPrevious,
-                                widget.previousBtnTitle,
-                              ) ??
-                              ElevatedButton(
-                                onPressed: onPrevious,
-                                child: Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.arrow_back,
-                                      size: 18,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 4.0),
-                                      child: Text(widget.previousBtnTitle),
-                                    ),
-                                  ],
-                                ),
+                          if (widget.previousButtonBuilder == null) ...[
+                            ElevatedButton(
+                              onPressed: onPrevious,
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.arrow_back,
+                                    size: 18,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 4.0),
+                                    child: Text(widget.previousBtnTitle),
+                                  ),
+                                ],
                               ),
+                            ),
+                          ] else if (previousButton != null) ...[
+                            previousButton
+                          ],
                         widget.nextButtonBuilder?.call(
                               () async {
                                 await onNext(step);

@@ -28,7 +28,7 @@ class RegistrationOptions {
   final AppBar Function(String title)? customAppbarBuilder;
   final Widget Function(Future<void> Function() onPressed, String label)?
       nextButtonBuilder;
-  final Widget Function(VoidCallback onPressed, String label)?
+  final Widget? Function(VoidCallback onPressed, String label)?
       previousButtonBuilder;
   final Color? backgroundColor;
 
