@@ -53,6 +53,8 @@ class RegistrationScreen extends StatelessWidget {
       nextButtonBuilder: registrationOptions.nextButtonBuilder,
       previousButtonBuilder: registrationOptions.previousButtonBuilder,
       customBackgroundColor: registrationOptions.backgroundColor,
+      titleWidget: registrationOptions.titleWidget,
+      loginButton: registrationOptions.loginButton,
     );
   }
 }
