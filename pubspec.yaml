@@ -7,11 +7,19 @@ description: A Flutter Registration package
 version: 1.2.0
 repository: https://github.com/Iconica-Development/flutter_registration
 
+publish_to: none
+
 environment:
   sdk: ">=2.18.0 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
+  flutter_input_library:
+    path: ../flutter_input_library
+  #   git:
+  #     url: https://github.com/Iconica-Development/flutter_input_library
+  #     ref: 2.7.0
+
   flutter:
     sdk: flutter
   flutter_localizations:

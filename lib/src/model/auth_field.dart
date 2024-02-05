@@ -4,18 +4,18 @@
 
 import 'package:flutter/material.dart';
 
-abstract class AuthField {
+abstract class AuthField<T> {
   AuthField({
     required this.name,
     this.title,
     this.validators = const [],
-    this.value = '',
+    required this.value,
   });
 
   final String name;
   final Widget? title;
-  List<String? Function(String?)> validators;
-  String value;
+  List<String? Function(T?)> validators;
+  T value;
 
   Widget build();
 }

@@ -17,7 +17,7 @@ class RegistrationScreen extends StatelessWidget {
   final RegistrationOptions registrationOptions;
 
   Future<void> register({
-    required HashMap<String, String> values,
+    required HashMap<String, dynamic> values,
     required void Function(int? pageToReturn) onError,
   }) async {
     try {

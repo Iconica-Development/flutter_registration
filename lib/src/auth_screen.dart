@@ -24,7 +24,7 @@ class AuthScreen extends StatefulWidget {
 
   final String title;
   final Future<void> Function({
-    required HashMap<String, String> values,
+    required HashMap<String, dynamic> values,
     required void Function(int? pageToReturn) onError,
   }) onFinish;
   final List<AuthStep> steps;
@@ -69,12 +69,11 @@ class _AuthScreenState extends State<AuthScreen> {
     FocusScope.of(context).unfocus();
 
     if (widget.steps.last == step) {
-      var values = HashMap<String, String>();
+      var values = HashMap<String, dynamic>();
 
       for (var step in widget.steps) {
         for (var field in step.fields) {
-          values[field.name] =
-              (field as AuthTextField).textController.value.text;
+          values[field.name] = field.value;
         }
       }
 
