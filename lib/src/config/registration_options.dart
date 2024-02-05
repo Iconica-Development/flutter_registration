@@ -18,6 +18,8 @@ class RegistrationOptions {
     this.nextButtonBuilder,
     this.previousButtonBuilder,
     this.backgroundColor,
+    this.titleWidget,
+    this.loginButton,
   });
 
   final RegistrationTranslations registrationTranslations;
@@ -31,6 +33,8 @@ class RegistrationOptions {
   final Widget? Function(VoidCallback onPressed, String label)?
       previousButtonBuilder;
   final Color? backgroundColor;
+  Widget? titleWidget;
+  Widget? loginButton;
 
   static List<AuthStep> getDefaultSteps({
     TextEditingController? emailController,

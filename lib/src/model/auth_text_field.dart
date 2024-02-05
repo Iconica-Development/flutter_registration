@@ -19,6 +19,7 @@ class AuthTextField extends AuthField {
     this.onChange,
     this.hidden,
     this.onPassChanged,
+    this.textFieldDecoration,
   }) {
     textController =
         textEditingController ?? TextEditingController(text: value);
@@ -32,6 +33,7 @@ class AuthTextField extends AuthField {
   final Function(String value)? onChange;
   final bool? hidden;
   final Function(bool value)? onPassChanged;
+  final InputDecoration? textFieldDecoration;
 
   @override
   Widget build() {
@@ -55,29 +57,33 @@ class AuthTextField extends AuthField {
       }
     }
 
-    return TextFormField(
-      style: textStyle,
-      decoration: InputDecoration(
-        label: label,
-        hintText: hintText,
-        suffix: suffix,
-      ),
-      controller: textController,
-      obscureText: hidden ?? obscureText,
-      onChanged: (v) {
-        value = v;
-        onChange?.call(value);
-      },
-      validator: (value) {
-        for (var validator in validators) {
-          var output = validator(value);
-          if (output != null) {
-            return output;
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+        style: textStyle,
+        decoration: textFieldDecoration ??
+            InputDecoration(
+              label: label,
+              hintText: hintText,
+              suffix: suffix,
+            ),
+        controller: textController,
+        obscureText: hidden ?? obscureText,
+        onChanged: (v) {
+          value = v;
+          onChange?.call(value);
+        },
+        validator: (value) {
+          for (var validator in validators) {
+            var output = validator(value);
+            if (output != null) {
+              return output;
+            }
           }
-        }
 
-        return null;
-      },
+          return null;
+        },
+      ),
     );
   }
 }

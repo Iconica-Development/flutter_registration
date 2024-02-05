@@ -19,6 +19,8 @@ class AuthScreen extends StatefulWidget {
     this.customBackgroundColor,
     this.nextButtonBuilder,
     this.previousButtonBuilder,
+    this.titleWidget,
+    this.loginButton,
     super.key,
   }) : assert(steps.length > 0, 'At least one step is required');
 
@@ -35,6 +37,8 @@ class AuthScreen extends StatefulWidget {
   final Color? customBackgroundColor;
   final Widget Function(Future<void> Function(), String)? nextButtonBuilder;
   final Widget? Function(VoidCallback, String)? previousButtonBuilder;
+  final Widget? titleWidget;
+  final Widget? loginButton;
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -113,38 +117,40 @@ class _AuthScreenState extends State<AuthScreen> {
           children: <Widget>[
             for (AuthStep step in widget.steps)
               Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  // Text(widget.title),
+                  if (widget.titleWidget != null) widget.titleWidget!,
+                  const SizedBox(height: 40),
                   Flexible(
-                    child: Center(
-                      child: ListView(
-                        physics: const ClampingScrollPhysics(),
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 8.0,
-                          horizontal: 30.0,
-                        ),
-                        children: [
-                          for (AuthField field in step.fields)
-                            Align(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  if (field.title != null) ...[
-                                    field.title!,
-                                  ],
-                                  field.build(),
-                                ],
-                              ),
-                            )
-                        ],
+                    child: ListView(
+                      physics: const ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 8.0,
+                        horizontal: 30.0,
                       ),
+                      children: [
+                        for (AuthField field in step.fields)
+                          Align(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (field.title != null) ...[
+                                  field.title!,
+                                ],
+                                field.build(),
+                              ],
+                            ),
+                          )
+                      ],
                     ),
                   ),
+                  const Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(
                       top: 15.0,
-                      bottom: 30.0,
+                      // bottom: 30.0,
                       left: 30.0,
                       right: 30.0,
                     ),
@@ -208,7 +214,12 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                       ],
                     ),
-                  )
+                  ),
+                  if (widget.loginButton != null)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: widget.loginButton!,
+                    ),
                 ],
               ),
           ],
