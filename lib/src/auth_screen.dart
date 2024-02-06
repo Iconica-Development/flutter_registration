@@ -120,8 +120,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   if (widget.titleWidget != null) widget.titleWidget!,
-                  const SizedBox(height: 40),
-                  Flexible(
+                  Expanded(
                     child: ListView(
                       physics: const ClampingScrollPhysics(),
                       shrinkWrap: true,
@@ -130,6 +129,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         horizontal: 30.0,
                       ),
                       children: [
+                        const SizedBox(height: 40),
                         for (AuthField field in step.fields)
                           Align(
                             child: Column(
@@ -145,7 +145,6 @@ class _AuthScreenState extends State<AuthScreen> {
                       ],
                     ),
                   ),
-                  const Spacer(),
                   Padding(
                     padding: const EdgeInsets.only(
                       top: 15.0,
