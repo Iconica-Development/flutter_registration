@@ -53,7 +53,6 @@ class _FlutterRegistrationDemoState extends State<FlutterRegistrationDemo> {
             rightWidget: Text.rich(
               TextSpan(
                 text: 'I agree with the ',
-                // style: const TextStyle(fontSize: 16, color: Colors.black),
                 children: <TextSpan>[
                   TextSpan(
                     text: 'terms & conditions',

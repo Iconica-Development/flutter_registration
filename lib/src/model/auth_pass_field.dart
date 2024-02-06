@@ -1,12 +1,13 @@
-// SPDX-FileCopyrightText: 2022 Iconica
+// SPDX-FileCopyrightText: 2024 Iconica
 //
 // SPDX-License-Identifier: BSD-3-Clause
 
 import 'package:flutter/material.dart';
+import 'package:flutter_input_library/flutter_input_library.dart';
 import 'package:flutter_registration/flutter_registration.dart';
 
-class AuthTextField extends AuthField {
-  AuthTextField({
+class AuthPassField extends AuthField {
+  AuthPassField({
     required super.name,
     TextEditingController? textEditingController,
     super.title,
@@ -15,12 +16,8 @@ class AuthTextField extends AuthField {
     this.textStyle,
     this.onChange,
     this.textFieldDecoration,
-  }) {
-    textController =
-        textEditingController ?? TextEditingController(text: value);
-  }
+  });
 
-  late TextEditingController textController;
   final TextStyle? textStyle;
   final Function(String value)? onChange;
   final InputDecoration? textFieldDecoration;
@@ -29,10 +26,9 @@ class AuthTextField extends AuthField {
   Widget build() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: TextFormField(
+      child: FlutterFormInputPassword(
         style: textStyle,
         decoration: textFieldDecoration,
-        controller: textController,
         onChanged: (v) {
           value = v;
           onChange?.call(value);
