@@ -149,71 +149,78 @@ class _AuthScreenState extends State<AuthScreen> {
                     padding: const EdgeInsets.only(
                       top: 15.0,
                       bottom: 30.0,
-                      left: 30.0,
-                      right: 30.0,
                     ),
-                    child: Row(
-                      mainAxisAlignment:
-                          (widget.previousButtonBuilder != null &&
-                                  previousButton == null)
-                              ? MainAxisAlignment.spaceAround
-                              : widget.steps.first != step
-                                  ? MainAxisAlignment.spaceBetween
-                                  : MainAxisAlignment.end,
+                    child: Column(
                       children: [
-                        if (widget.steps.first != step)
-                          if (widget.previousButtonBuilder == null) ...[
-                            ElevatedButton(
-                              onPressed: onPrevious,
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.arrow_back,
-                                    size: 18,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            if (widget.steps.first != step)
+                              if (widget.previousButtonBuilder == null) ...[
+                                ElevatedButton(
+                                  onPressed: onPrevious,
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.arrow_back,
+                                        size: 18,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 4.0),
+                                        child: Text(widget.previousBtnTitle),
+                                      ),
+                                    ],
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 4.0),
-                                    child: Text(widget.previousBtnTitle),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ] else if (previousButton != null) ...[
-                            previousButton
-                          ],
-                        widget.nextButtonBuilder?.call(
-                              () async {
-                                await onNext(step);
-                              },
-                              widget.steps.last == step
-                                  ? widget.submitBtnTitle
-                                  : widget.nextBtnTitle,
-                            ) ??
-                            ElevatedButton(
-                              onPressed: () async {
-                                await onNext(step);
-                              },
-                              child: Row(
-                                children: [
-                                  Text(
+                                ),
+                              ] else if (previousButton != null) ...[
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: previousButton,
+                                )
+                              ],
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: widget.nextButtonBuilder?.call(
+                                    () async {
+                                      await onNext(step);
+                                    },
                                     widget.steps.last == step
                                         ? widget.submitBtnTitle
                                         : widget.nextBtnTitle,
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 4.0),
-                                    child: Icon(
-                                      Icons.arrow_forward,
-                                      size: 18,
+                                  ) ??
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      await onNext(step);
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          widget.steps.last == step
+                                              ? widget.submitBtnTitle
+                                              : widget.nextBtnTitle,
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.only(left: 4.0),
+                                          child: Icon(
+                                            Icons.arrow_forward,
+                                            size: 18,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
                             ),
+                          ],
+                        ),
+                        if (widget.loginButton != null)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: widget.loginButton!,
+                          ),
                       ],
                     ),
                   ),
-                  if (widget.loginButton != null) widget.loginButton!,
                 ],
               ),
           ],

@@ -11,6 +11,7 @@ export 'src/model/auth_field.dart';
 export 'src/model/auth_step.dart';
 export 'src/model/auth_text_field.dart';
 export 'src/model/auth_bool_field.dart';
+export 'src/model/auth_drop_down.dart';
 export 'src/registration_screen.dart';
 export 'src/service/registration_repository.dart';
 export 'package:flutter_input_library/flutter_input_library.dart'
