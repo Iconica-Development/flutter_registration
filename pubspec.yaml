@@ -15,10 +15,9 @@ environment:
 
 dependencies:
   flutter_input_library:
-    path: ../flutter_input_library
-  #   git:
-  #     url: https://github.com/Iconica-Development/flutter_input_library
-  #     ref: 2.7.0
+    git:
+      url: https://github.com/Iconica-Development/flutter_input_library
+      ref: 3.0.0
 
   flutter:
     sdk: flutter

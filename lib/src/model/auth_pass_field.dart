@@ -16,16 +16,18 @@ class AuthPassField extends AuthField {
     this.textStyle,
     this.onChange,
     this.textFieldDecoration,
+    this.padding = const EdgeInsets.all(8.0),
   });
 
   final TextStyle? textStyle;
   final Function(String value)? onChange;
   final InputDecoration? textFieldDecoration;
+  final EdgeInsets padding;
 
   @override
   Widget build() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: padding,
       child: FlutterFormInputPassword(
         style: textStyle,
         decoration: textFieldDecoration,

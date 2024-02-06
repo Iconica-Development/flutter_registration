@@ -15,6 +15,7 @@ class AuthTextField extends AuthField {
     this.textStyle,
     this.onChange,
     this.textFieldDecoration,
+    this.padding = const EdgeInsets.all(8.0),
   }) {
     textController =
         textEditingController ?? TextEditingController(text: value);
@@ -24,11 +25,12 @@ class AuthTextField extends AuthField {
   final TextStyle? textStyle;
   final Function(String value)? onChange;
   final InputDecoration? textFieldDecoration;
+  final EdgeInsets padding;
 
   @override
   Widget build() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: padding,
       child: TextFormField(
         style: textStyle,
         decoration: textFieldDecoration,

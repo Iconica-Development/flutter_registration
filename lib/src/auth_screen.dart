@@ -9,7 +9,7 @@ import 'package:flutter_registration/flutter_registration.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({
-    required this.title,
+    required this.appBarTitle,
     required this.steps,
     required this.submitBtnTitle,
     required this.nextBtnTitle,
@@ -24,7 +24,7 @@ class AuthScreen extends StatefulWidget {
     super.key,
   }) : assert(steps.length > 0, 'At least one step is required');
 
-  final String title;
+  final String appBarTitle;
   final Future<void> Function({
     required HashMap<String, dynamic> values,
     required void Function(int? pageToReturn) onError,
@@ -53,7 +53,7 @@ class _AuthScreenState extends State<AuthScreen> {
   AppBar get _appBar =>
       widget.customAppBar ??
       AppBar(
-        title: Text(widget.title),
+        title: Text(widget.appBarTitle),
       );
 
   void onPrevious() {
@@ -117,9 +117,8 @@ class _AuthScreenState extends State<AuthScreen> {
           children: <Widget>[
             for (AuthStep step in widget.steps)
               Column(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Text(widget.title),
                   if (widget.titleWidget != null) widget.titleWidget!,
                   const SizedBox(height: 40),
                   Flexible(
@@ -150,7 +149,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   Padding(
                     padding: const EdgeInsets.only(
                       top: 15.0,
-                      // bottom: 30.0,
+                      bottom: 30.0,
                       left: 30.0,
                       right: 30.0,
                     ),
@@ -215,11 +214,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       ],
                     ),
                   ),
-                  if (widget.loginButton != null)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: widget.loginButton!,
-                    ),
+                  if (widget.loginButton != null) widget.loginButton!,
                 ],
               ),
           ],
