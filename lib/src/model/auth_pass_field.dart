@@ -15,11 +15,13 @@ class AuthPassField extends AuthField {
     super.value = '',
     this.textStyle,
     this.onChange,
+    this.iconSize,
     this.textFieldDecoration,
     this.padding = const EdgeInsets.all(8.0),
   });
 
   final TextStyle? textStyle;
+  final double? iconSize;
   final Function(String value)? onChange;
   final InputDecoration? textFieldDecoration;
   final EdgeInsets padding;
@@ -30,6 +32,7 @@ class AuthPassField extends AuthField {
       padding: padding,
       child: FlutterFormInputPassword(
         style: textStyle,
+        iconSize: iconSize ?? 24.0,
         decoration: textFieldDecoration,
         onChanged: (v) {
           value = v;

@@ -6,7 +6,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_registration/flutter_registration.dart';
-import 'package:flutter_registration/src/model/auth_pass_field.dart';
 
 class RegistrationOptions {
   RegistrationOptions({
