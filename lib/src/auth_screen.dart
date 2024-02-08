@@ -153,7 +153,13 @@ class _AuthScreenState extends State<AuthScreen> {
                     child: Column(
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment:
+                              (widget.previousButtonBuilder != null &&
+                                      previousButton == null)
+                                  ? MainAxisAlignment.spaceAround
+                                  : widget.steps.first != step
+                                      ? MainAxisAlignment.spaceBetween
+                                      : MainAxisAlignment.end,
                           children: [
                             if (widget.steps.first != step)
                               if (widget.previousButtonBuilder == null) ...[
