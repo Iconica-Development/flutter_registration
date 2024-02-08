@@ -75,7 +75,6 @@ class _FlutterRegistrationDemoState extends State<FlutterRegistrationDemo> {
   Widget build(BuildContext context) {
     return RegistrationScreen(
       registrationOptions: RegistrationOptions(
-        previousButtonBuilder: (onPressed, label) => null,
         registrationRepository: ExampleRegistrationRepository(),
         registrationSteps: steps,
         afterRegistration: () {
