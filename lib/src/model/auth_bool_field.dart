@@ -24,12 +24,13 @@ class AuthBoolField extends AuthField {
   final Function(String value)? onChange;
 
   @override
-  Widget build() {
+  Widget build(BuildContext context, Function onValueChanged) {
     return FlutterFormInputBool(
       widgetType: widgetType,
       onChanged: (v) {
         value = v;
         onChange?.call(value);
+        onValueChanged();
       },
       validator: (value) {
         for (var validator in validators) {

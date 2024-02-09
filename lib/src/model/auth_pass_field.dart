@@ -27,7 +27,7 @@ class AuthPassField extends AuthField {
   final EdgeInsets padding;
 
   @override
-  Widget build() {
+  Widget build(BuildContext context, Function onValueChanged) {
     return Padding(
       padding: padding,
       child: FlutterFormInputPassword(
@@ -37,6 +37,7 @@ class AuthPassField extends AuthField {
         onChanged: (v) {
           value = v;
           onChange?.call(value);
+          onValueChanged();
         },
         validator: (value) {
           for (var validator in validators) {

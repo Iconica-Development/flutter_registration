@@ -35,9 +35,8 @@ class AuthScreen extends StatefulWidget {
   final String previousBtnTitle;
   final AppBar? customAppBar;
   final Color? customBackgroundColor;
-  final Widget Function(
-          Future<void> Function() onPressed, String label, int step)?
-      nextButtonBuilder;
+  final Widget Function(Future<void> Function()? onPressed, String label,
+      int step, bool enabled)? nextButtonBuilder;
   final Widget? Function(VoidCallback onPressed, String label, int step)?
       previousButtonBuilder;
   final Widget? titleWidget;
@@ -52,6 +51,7 @@ class _AuthScreenState extends State<AuthScreen> {
   final _pageController = PageController();
   final _animationDuration = const Duration(milliseconds: 300);
   final _animationCurve = Curves.ease;
+  bool _formValid = false;
 
   AppBar get _appBar =>
       widget.customAppBar ??
@@ -60,6 +60,7 @@ class _AuthScreenState extends State<AuthScreen> {
       );
 
   void onPrevious() {
+    _validate(_pageController.page!.toInt() - 1);
     _pageController.previousPage(
       duration: _animationDuration,
       curve: _animationCurve,
@@ -95,11 +96,35 @@ class _AuthScreenState extends State<AuthScreen> {
 
       return;
     } else {
+      _validate(_pageController.page!.toInt() + 1);
       _pageController.nextPage(
         duration: _animationDuration,
         curve: _animationCurve,
       );
     }
+  }
+
+  void _validate(int currentPage) {
+    bool isStepValid = true;
+
+    // Loop through each field in the current step
+    for (var field in widget.steps[currentPage].fields) {
+      for (var validator in field.validators) {
+        String? validationResult = validator(field.value);
+        if (validationResult != null) {
+          // If any validator returns an error, mark step as invalid and break
+          isStepValid = false;
+          break;
+        }
+      }
+      if (!isStepValid) {
+        break; // No need to check further fields if one is already invalid
+      }
+    }
+
+    setState(() {
+      _formValid = isStepValid;
+    });
   }
 
   @override
@@ -136,7 +161,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                 if (field.title != null) ...[
                                   field.title!,
                                 ],
-                                field.build(),
+                                field.build(context, () {
+                                  _validate(i);
+                                }),
                               ],
                             ),
                           )
@@ -197,18 +224,23 @@ class _AuthScreenState extends State<AuthScreen> {
                                   .call(onPrevious, widget.previousBtnTitle, i)!
                             ],
                             widget.nextButtonBuilder?.call(
-                                  () async {
-                                    await onNext(widget.steps[i]);
-                                  },
+                                  !_formValid
+                                      ? null
+                                      : () async {
+                                          await onNext(widget.steps[i]);
+                                        },
                                   widget.steps.last == widget.steps[i]
                                       ? widget.submitBtnTitle
                                       : widget.nextBtnTitle,
                                   i,
+                                  _formValid,
                                 ) ??
                                 ElevatedButton(
-                                  onPressed: () async {
-                                    await onNext(widget.steps[i]);
-                                  },
+                                  onPressed: !_formValid
+                                      ? null
+                                      : () async {
+                                          await onNext(widget.steps[i]);
+                                        },
                                   child: Row(
                                     children: [
                                       Text(

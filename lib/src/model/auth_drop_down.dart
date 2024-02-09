@@ -24,7 +24,7 @@ class AuthDropdownField extends AuthField {
   final Icon icon;
 
   @override
-  Widget build() {
+  Widget build(BuildContext context, Function onValueChanged) {
     return Padding(
       padding: padding,
       child: DropdownButtonFormField<String>(
@@ -41,6 +41,7 @@ class AuthDropdownField extends AuthField {
         onChanged: (newValue) {
           selectedValue = newValue;
           onChanged(newValue);
+          onValueChanged();
         },
         validator: (value) {
           if (validators.isNotEmpty) {

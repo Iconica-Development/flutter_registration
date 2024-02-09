@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 abstract class AuthField<T> {
   AuthField({
     required this.name,
+    required this.value,
+    this.onValueChanged,
     this.title,
     this.validators = const [],
-    required this.value,
   });
 
   final String name;
@@ -17,5 +18,7 @@ abstract class AuthField<T> {
   List<String? Function(T?)> validators;
   T value;
 
-  Widget build();
+  final Function(T)? onValueChanged; // Callback for value changes
+
+  Widget build(BuildContext context, Function onValueChanged);
 }
