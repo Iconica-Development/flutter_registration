@@ -68,6 +68,7 @@ class _AuthScreenState extends State<AuthScreen> {
       );
 
   void onPrevious() {
+    FocusScope.of(context).unfocus();
     _validate(_pageController.page!.toInt() - 1);
     _pageController.previousPage(
       duration: _animationDuration,
