@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2022 Iconica
 //
 // SPDX-License-Identifier: BSD-3-Clause
-
+/// Flutter registration component that provides a registration screen with multiple registration steps.
 library flutter_registration;
 
 export 'src/config/registration_options.dart';
