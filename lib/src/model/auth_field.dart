@@ -4,18 +4,21 @@
 
 import 'package:flutter/material.dart';
 
-abstract class AuthField {
+abstract class AuthField<T> {
   AuthField({
     required this.name,
+    required this.value,
+    this.onValueChanged,
     this.title,
     this.validators = const [],
-    this.value = '',
   });
 
   final String name;
   final Widget? title;
-  List<String? Function(String?)> validators;
-  String value;
+  List<String? Function(T?)> validators;
+  T value;
 
-  Widget build();
+  final Function(T)? onValueChanged; // Callback for value changes
+
+  Widget build(BuildContext context, Function onValueChanged);
 }

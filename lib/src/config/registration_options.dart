@@ -18,6 +18,8 @@ class RegistrationOptions {
     this.nextButtonBuilder,
     this.previousButtonBuilder,
     this.backgroundColor,
+    this.titleWidget,
+    this.loginButton,
   });
 
   final RegistrationTranslations registrationTranslations;
@@ -26,11 +28,13 @@ class RegistrationOptions {
   final VoidCallback afterRegistration;
   final RegistrationRepository registrationRepository;
   final AppBar Function(String title)? customAppbarBuilder;
-  final Widget Function(Future<void> Function() onPressed, String label)?
-      nextButtonBuilder;
-  final Widget Function(VoidCallback onPressed, String label)?
+  final Widget Function(Future<void> Function()? onPressed, String label,
+      int step, bool enabled)? nextButtonBuilder;
+  final Widget? Function(VoidCallback onPressed, String label, int step)?
       previousButtonBuilder;
   final Color? backgroundColor;
+  Widget? titleWidget;
+  Widget? loginButton;
 
   static List<AuthStep> getDefaultSteps({
     TextEditingController? emailController,
@@ -69,8 +73,10 @@ class RegistrationOptions {
                     ),
                   ),
                 ),
-            label: labelBuilder?.call(translations.defaultEmailLabel),
-            hintText: translations.defaultEmailHint,
+            textFieldDecoration: InputDecoration(
+              label: labelBuilder?.call(translations.defaultEmailLabel),
+              hintText: translations.defaultEmailHint,
+            ),
             textStyle: textStyle,
             validators: [
               (email) => (email == null || email.isEmpty)
@@ -87,7 +93,7 @@ class RegistrationOptions {
       ),
       AuthStep(
         fields: [
-          AuthTextField(
+          AuthPassField(
             name: 'password1',
             textEditingController: pass1Controller,
             title: titleBuilder?.call(
@@ -105,10 +111,11 @@ class RegistrationOptions {
                     ),
                   ),
                 ),
-            label: labelBuilder?.call(translations.defaultPassword1Label),
-            hintText: translations.defaultPassword1Hint,
+            textFieldDecoration: InputDecoration(
+              label: labelBuilder?.call(translations.defaultPassword1Label),
+              hintText: translations.defaultPassword1Hint,
+            ),
             textStyle: textStyle,
-            obscureText: true,
             validators: [
               (value) => (value == null || value.isEmpty)
                   ? translations.defaultPassword1ValidatorMessage
@@ -117,12 +124,8 @@ class RegistrationOptions {
             onChange: (value) {
               password1 = value;
             },
-            hidden: pass1Hidden,
-            onPassChanged: (value) {
-              passHideOnChange?.call(true, value);
-            },
           ),
-          AuthTextField(
+          AuthPassField(
             name: 'password2',
             textEditingController: pass2Controller,
             title: titleBuilder?.call(
@@ -140,10 +143,11 @@ class RegistrationOptions {
                     ),
                   ),
                 ),
-            label: labelBuilder?.call(translations.defaultPassword2Label),
-            hintText: translations.defaultPassword2Hint,
+            textFieldDecoration: InputDecoration(
+              label: labelBuilder?.call(translations.defaultPassword2Label),
+              hintText: translations.defaultPassword2Hint,
+            ),
             textStyle: textStyle,
-            obscureText: true,
             validators: [
               (value) {
                 if (pass1Controller != null) {
@@ -158,10 +162,6 @@ class RegistrationOptions {
                 return null;
               }
             ],
-            hidden: pass2Hidden,
-            onPassChanged: (value) {
-              passHideOnChange?.call(false, value);
-            },
           ),
         ],
       ),

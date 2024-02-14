@@ -17,7 +17,7 @@ class RegistrationScreen extends StatelessWidget {
   final RegistrationOptions registrationOptions;
 
   Future<void> register({
-    required HashMap<String, String> values,
+    required HashMap<String, dynamic> values,
     required void Function(int? pageToReturn) onError,
   }) async {
     try {
@@ -46,13 +46,15 @@ class RegistrationScreen extends StatelessWidget {
         translations.title,
       ),
       onFinish: register,
-      title: translations.title,
+      appBarTitle: translations.title,
       submitBtnTitle: translations.registerBtn,
       nextBtnTitle: translations.nextStepBtn,
       previousBtnTitle: translations.previousStepBtn,
       nextButtonBuilder: registrationOptions.nextButtonBuilder,
       previousButtonBuilder: registrationOptions.previousButtonBuilder,
       customBackgroundColor: registrationOptions.backgroundColor,
+      titleWidget: registrationOptions.titleWidget,
+      loginButton: registrationOptions.loginButton,
     );
   }
 }
