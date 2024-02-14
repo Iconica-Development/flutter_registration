@@ -12,7 +12,7 @@ class AuthBoolField extends AuthField {
     required this.widgetType,
     super.title,
     super.validators = const [],
-    super.value = '',
+    super.value = false,
     this.leftWidget,
     this.rightWidget,
     this.onChange,

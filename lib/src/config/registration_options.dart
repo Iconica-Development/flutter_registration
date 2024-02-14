@@ -12,7 +12,7 @@ class RegistrationOptions {
     required this.registrationRepository,
     required this.registrationSteps,
     required this.afterRegistration,
-    this.registrationTranslations = const RegistrationTranslations(),
+    this.registrationTranslations = const RegistrationTranslations.empty(),
     this.onError,
     this.customAppbarBuilder,
     this.nextButtonBuilder,
@@ -43,7 +43,8 @@ class RegistrationOptions {
     TextEditingController? pass2Controller,
     bool pass2Hidden = true,
     Function(bool mainPass, bool value)? passHideOnChange,
-    RegistrationTranslations translations = const RegistrationTranslations(),
+    RegistrationTranslations translations =
+        const RegistrationTranslations.empty(),
     Function(String title)? titleBuilder,
     Function(String label)? labelBuilder,
     TextStyle? textStyle,
