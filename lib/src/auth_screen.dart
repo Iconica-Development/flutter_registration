@@ -21,6 +21,10 @@ class AuthScreen extends StatefulWidget {
     this.previousButtonBuilder,
     this.titleWidget,
     this.loginButton,
+    this.titleFlex,
+    this.formFlex,
+    this.beforeTitleFlex,
+    this.afterTitleFlex,
     super.key,
   }) : assert(steps.length > 0, 'At least one step is required');
 
@@ -41,6 +45,10 @@ class AuthScreen extends StatefulWidget {
       previousButtonBuilder;
   final Widget? titleWidget;
   final Widget? loginButton;
+  final int? titleFlex;
+  final int? formFlex;
+  final int? beforeTitleFlex;
+  final int? afterTitleFlex;
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -140,19 +148,33 @@ class _AuthScreenState extends State<AuthScreen> {
           children: <Widget>[
             for (var i = 0; i < widget.steps.length; i++)
               Column(
+                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if (widget.titleWidget != null) widget.titleWidget!,
-                  Expanded(
-                    child: ListView(
-                      physics: const ClampingScrollPhysics(),
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8.0,
-                        horizontal: 30.0,
+                  if (widget.titleWidget != null) ...[
+                    Expanded(
+                      flex: widget.titleFlex ?? 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            flex: widget.beforeTitleFlex ?? 3,
+                            child: Container(),
+                          ),
+                          widget.titleWidget!,
+                          Expanded(
+                            flex: widget.afterTitleFlex ?? 2,
+                            child: Container(),
+                          ),
+                        ],
                       ),
+                    ),
+                  ],
+                  Expanded(
+                    flex: widget.formFlex ?? 3,
+                    child: Column(
                       children: [
-                        const SizedBox(height: 40),
                         for (AuthField field in widget.steps[i].fields)
                           Align(
                             child: Column(
@@ -166,7 +188,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 }),
                               ],
                             ),
-                          )
+                          ),
                       ],
                     ),
                   ),
