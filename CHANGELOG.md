@@ -17,6 +17,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 - feat: added validation to disable next button
 - feat(auth-screen): add flexible spacing between fields
 - fix(keyboard-focus): add unfocus for onPrevious
+- fix: add empty and required constructors for the RegistrationTranslations
 
 # 1.2.0
 

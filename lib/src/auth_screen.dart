@@ -159,14 +159,12 @@ class _AuthScreenState extends State<AuthScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Expanded(
+                          Spacer(
                             flex: widget.beforeTitleFlex ?? 3,
-                            child: Container(),
                           ),
                           widget.titleWidget!,
-                          Expanded(
+                          Spacer(
                             flex: widget.afterTitleFlex ?? 2,
-                            child: Container(),
                           ),
                         ],
                       ),
