@@ -17,6 +17,7 @@ class RegistrationOptions {
     this.customAppbarBuilder,
     this.nextButtonBuilder,
     this.previousButtonBuilder,
+    this.buttonMainAxisAlignment,
     this.backgroundColor,
     this.titleWidget,
     this.loginButton,
@@ -32,6 +33,7 @@ class RegistrationOptions {
       int step, bool enabled)? nextButtonBuilder;
   final Widget? Function(VoidCallback onPressed, String label, int step)?
       previousButtonBuilder;
+  final MainAxisAlignment? buttonMainAxisAlignment;
   final Color? backgroundColor;
   Widget? titleWidget;
   Widget? loginButton;

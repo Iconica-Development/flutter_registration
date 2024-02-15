@@ -52,6 +52,7 @@ class RegistrationScreen extends StatelessWidget {
       previousBtnTitle: translations.previousStepBtn,
       nextButtonBuilder: registrationOptions.nextButtonBuilder,
       previousButtonBuilder: registrationOptions.previousButtonBuilder,
+      buttonMainAxisAlignment: registrationOptions.buttonMainAxisAlignment,
       customBackgroundColor: registrationOptions.backgroundColor,
       titleWidget: registrationOptions.titleWidget,
       loginButton: registrationOptions.loginButton,
