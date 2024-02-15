@@ -1,61 +1,74 @@
-// SPDX-FileCopyrightText: 2022 Iconica
-//
-// SPDX-License-Identifier: BSD-3-Clause
-
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_registration/flutter_registration.dart';
 import 'package:flutter_registration/src/auth_screen.dart';
 
-class RegistrationScreen extends StatelessWidget {
+class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({
     required this.registrationOptions,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   final RegistrationOptions registrationOptions;
 
-  Future<void> register({
+  @override
+  RegistrationScreenState createState() => RegistrationScreenState();
+}
+
+class RegistrationScreenState extends State<RegistrationScreen> {
+  bool _isLoading = false;
+
+  Future<void> _register({
     required HashMap<String, dynamic> values,
     required void Function(int? pageToReturn) onError,
   }) async {
     try {
-      var registered =
-          await registrationOptions.registrationRepository.register(values);
+      setState(() {
+        _isLoading = true;
+      });
+
+      var registered = await widget.registrationOptions.registrationRepository
+          .register(values);
 
       if (registered == null) {
-        registrationOptions.afterRegistration();
+        widget.registrationOptions.afterRegistration();
       } else {
-        var pageToReturn = registrationOptions.onError?.call(registered);
+        var pageToReturn = widget.registrationOptions.onError?.call(registered);
 
         onError(pageToReturn);
       }
     } catch (e) {
       onError(0);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    var translations = registrationOptions.registrationTranslations;
+    var translations = widget.registrationOptions.registrationTranslations;
 
     return AuthScreen(
-      steps: registrationOptions.registrationSteps,
-      customAppBar: registrationOptions.customAppbarBuilder?.call(
+      steps: widget.registrationOptions.registrationSteps,
+      customAppBar: widget.registrationOptions.customAppbarBuilder?.call(
         translations.title,
       ),
-      onFinish: register,
+      onFinish: _register,
       appBarTitle: translations.title,
       submitBtnTitle: translations.registerBtn,
       nextBtnTitle: translations.nextStepBtn,
       previousBtnTitle: translations.previousStepBtn,
-      nextButtonBuilder: registrationOptions.nextButtonBuilder,
-      previousButtonBuilder: registrationOptions.previousButtonBuilder,
-      buttonMainAxisAlignment: registrationOptions.buttonMainAxisAlignment,
-      customBackgroundColor: registrationOptions.backgroundColor,
-      titleWidget: registrationOptions.titleWidget,
-      loginButton: registrationOptions.loginButton,
+      nextButtonBuilder: widget.registrationOptions.nextButtonBuilder,
+      previousButtonBuilder: widget.registrationOptions.previousButtonBuilder,
+      buttonMainAxisAlignment:
+          widget.registrationOptions.buttonMainAxisAlignment,
+      customBackgroundColor: widget.registrationOptions.backgroundColor,
+      titleWidget: widget.registrationOptions.titleWidget,
+      loginButton: widget.registrationOptions.loginButton,
+      isLoading: _isLoading,
     );
   }
 }

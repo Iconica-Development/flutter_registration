@@ -26,6 +26,7 @@ class AuthScreen extends StatefulWidget {
     this.formFlex,
     this.beforeTitleFlex,
     this.afterTitleFlex,
+    this.isLoading = false,
     super.key,
   }) : assert(steps.length > 0, 'At least one step is required');
 
@@ -51,6 +52,7 @@ class AuthScreen extends StatefulWidget {
   final int? formFlex;
   final int? beforeTitleFlex;
   final int? afterTitleFlex;
+  final bool isLoading;
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -140,149 +142,151 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: widget.customBackgroundColor ?? Colors.white,
-      appBar: _appBar,
-      body: Form(
-        key: _formKey,
-        child: PageView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: _pageController,
-          children: <Widget>[
-            for (var i = 0; i < widget.steps.length; i++)
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (widget.titleWidget != null) ...[
-                    Expanded(
-                      flex: widget.titleFlex ?? 1,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Spacer(
-                            flex: widget.beforeTitleFlex ?? 3,
-                          ),
-                          widget.titleWidget!,
-                          Spacer(
-                            flex: widget.afterTitleFlex ?? 2,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                  Flexible(
-                    flex: widget.formFlex ?? 3,
-                    child: Column(
-                      children: [
-                        for (AuthField field in widget.steps[i].fields)
-                          Align(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (field.title != null) ...[
-                                  field.title!,
-                                ],
-                                field.build(context, () {
-                                  _validate(i);
-                                }),
-                              ],
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment:
-                            widget.buttonMainAxisAlignment != null
-                                ? widget.buttonMainAxisAlignment!
-                                : (widget.previousButtonBuilder != null &&
-                                        widget.previousButtonBuilder?.call(
-                                              onPrevious,
-                                              widget.previousBtnTitle,
-                                              i,
-                                            ) ==
-                                            null)
-                                    ? MainAxisAlignment.start
-                                    : widget.steps.first != widget.steps[i]
-                                        ? MainAxisAlignment.center
-                                        : MainAxisAlignment.end,
-                        children: [
-                          if (widget.previousButtonBuilder == null) ...[
-                            if (widget.steps.first != widget.steps[i])
-                              ElevatedButton(
-                                onPressed: onPrevious,
-                                child: Row(
+    return widget.isLoading
+        ? const Center(
+            child: SizedBox(
+              height: 120,
+              width: 120,
+              child: CircularProgressIndicator(),
+            ),
+          )
+        : Scaffold(
+            backgroundColor: widget.customBackgroundColor ?? Colors.white,
+            appBar: _appBar,
+            body: Form(
+              key: _formKey,
+              child: PageView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: _pageController,
+                  children: <Widget>[
+                    for (var i = 0; i < widget.steps.length; i++)
+                      Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if (widget.titleWidget != null) ...[
+                              Expanded(
+                                flex: widget.titleFlex ?? 1,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const Icon(
-                                      Icons.arrow_back,
-                                      size: 18,
+                                    Expanded(
+                                      flex: widget.beforeTitleFlex ?? 3,
+                                      child: Container(),
                                     ),
+                                    widget.titleWidget!,
+                                    Expanded(
+                                      flex: widget.afterTitleFlex ?? 2,
+                                      child: Container(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        widget.buttonMainAxisAlignment != null
+                                            ? widget.buttonMainAxisAlignment!
+                                            : (widget.previousButtonBuilder !=
+                                                        null &&
+                                                    widget.previousButtonBuilder
+                                                            ?.call(
+                                                          onPrevious,
+                                                          widget
+                                                              .previousBtnTitle,
+                                                          i,
+                                                        ) ==
+                                                        null)
+                                                ? MainAxisAlignment.start
+                                                : widget.steps.first !=
+                                                        widget.steps[i]
+                                                    ? MainAxisAlignment.center
+                                                    : MainAxisAlignment.end,
+                                    children: [
+                                      if (widget.previousButtonBuilder ==
+                                          null) ...[
+                                        if (widget.steps.first !=
+                                            widget.steps[i])
+                                          ElevatedButton(
+                                            onPressed: onPrevious,
+                                            child: Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.arrow_back,
+                                                  size: 18,
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 4.0),
+                                                  child: Text(
+                                                      widget.previousBtnTitle),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                      ] else if (widget.previousButtonBuilder
+                                              ?.call(onPrevious,
+                                                  widget.previousBtnTitle, i) !=
+                                          null) ...[
+                                        widget.previousButtonBuilder!.call(
+                                            onPrevious,
+                                            widget.previousBtnTitle,
+                                            i)!
+                                      ],
+                                      widget.nextButtonBuilder?.call(
+                                            !_formValid
+                                                ? null
+                                                : () async {
+                                                    await onNext(
+                                                        widget.steps[i]);
+                                                  },
+                                            widget.steps.last == widget.steps[i]
+                                                ? widget.submitBtnTitle
+                                                : widget.nextBtnTitle,
+                                            i,
+                                            _formValid,
+                                          ) ??
+                                          ElevatedButton(
+                                            onPressed: !_formValid
+                                                ? null
+                                                : () async {
+                                                    await onNext(
+                                                        widget.steps[i]);
+                                                  },
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  widget.steps.last ==
+                                                          widget.steps[i]
+                                                      ? widget.submitBtnTitle
+                                                      : widget.nextBtnTitle,
+                                                ),
+                                                const Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 4.0),
+                                                  child: Icon(
+                                                    Icons.arrow_forward,
+                                                    size: 18,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                    ],
+                                  ),
+                                  if (widget.loginButton != null)
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 4.0),
-                                      child: Text(widget.previousBtnTitle),
+                                      padding: const EdgeInsets.only(top: 20.0),
+                                      child: widget.loginButton!,
                                     ),
-                                  ],
-                                ),
+                                ],
                               ),
-                          ] else if (widget.previousButtonBuilder?.call(
-                                  onPrevious, widget.previousBtnTitle, i) !=
-                              null) ...[
-                            widget.previousButtonBuilder!
-                                .call(onPrevious, widget.previousBtnTitle, i)!
-                          ],
-                          widget.nextButtonBuilder?.call(
-                                !_formValid
-                                    ? null
-                                    : () async {
-                                        await onNext(widget.steps[i]);
-                                      },
-                                widget.steps.last == widget.steps[i]
-                                    ? widget.submitBtnTitle
-                                    : widget.nextBtnTitle,
-                                i,
-                                _formValid,
-                              ) ??
-                              ElevatedButton(
-                                onPressed: !_formValid
-                                    ? null
-                                    : () async {
-                                        await onNext(widget.steps[i]);
-                                      },
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      widget.steps.last == widget.steps[i]
-                                          ? widget.submitBtnTitle
-                                          : widget.nextBtnTitle,
-                                    ),
-                                    const Padding(
-                                      padding: EdgeInsets.only(left: 4.0),
-                                      child: Icon(
-                                        Icons.arrow_forward,
-                                        size: 18,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                        ],
-                      ),
-                      if (widget.loginButton != null)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 20.0),
-                          child: widget.loginButton!,
-                        ),
-                    ],
-                  ),
-                ],
-              ),
-          ],
-        ),
-      ),
-    );
+                            ],
+                          ]),
+                  ]),
+            ));
   }
 }
