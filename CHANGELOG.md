@@ -3,6 +3,11 @@ SPDX-FileCopyrightText: 2022 Iconica
 
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
+
+# 2.0.1
+- feat: added circular progress indicator while awaiting registration of user
+- feat: added alignment option for buttons
+
 # 2.0.0
 - feat(buttons): Added the possiblity to only have a next button by return zero on the previous button builder
 - feat: exposed input decoration in AuthTextField
