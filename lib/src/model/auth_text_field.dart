@@ -5,7 +5,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_registration/flutter_registration.dart';
 
+/// A field for capturing text inputs in a Flutter form.
+///
+/// Extends [AuthField].
 class AuthTextField extends AuthField {
+  /// Constructs an [AuthTextField] object.
+  ///
+  /// [name] specifies the name of the field.
+  ///
+  /// [textEditingController] controller for the text input (optional).
+  ///
+  /// [title] specifies the title widget of the field (optional).
+  ///
+  /// [validators] defines a list of validation functions for the field (optional).
+  ///
+  /// [value] specifies the initial value of the field (default is an empty string).
+  ///
+  /// [textStyle] defines the text style for the text input.
+  ///
+  /// [onChange] is a callback function triggered when the value of the field changes.
+  ///
+  /// [textFieldDecoration] defines the decoration for the text input field (optional).
+  ///
+  /// [padding] defines the padding around the text input field (default is EdgeInsets.all(8.0)).
   AuthTextField({
     required super.name,
     TextEditingController? textEditingController,
