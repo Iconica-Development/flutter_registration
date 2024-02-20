@@ -6,7 +6,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_input_library/flutter_input_library.dart';
 import 'package:flutter_registration/flutter_registration.dart';
 
+/// A field for capturing password inputs in a Flutter form.
+///
+/// Extends [AuthField].
 class AuthPassField extends AuthField {
+  /// Constructs an [AuthPassField] object.
+  ///
+  /// [name] specifies the name of the field.
+  ///
+  /// [textEditingController] controller for the password input (optional).
+  ///
+  /// [title] specifies the title widget of the field (optional).
+  ///
+  /// [validators] defines a list of validation functions for the field (optional).
+  ///
+  /// [value] specifies the initial value of the field (default is an empty string).
+  ///
+  /// [textStyle] defines the text style for the password input.
+  ///
+  /// [onChange] is a callback function triggered when the value of the field changes.
+  ///
+  /// [iconSize] specifies the size of the icon displayed with the password input (optional).
+  ///
+  /// [textFieldDecoration] defines the decoration for the password input field (optional).
+  ///
+  /// [padding] defines the padding around the password input field (default is EdgeInsets.all(8.0)).
   AuthPassField({
     required super.name,
     TextEditingController? textEditingController,

@@ -4,21 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_registration/flutter_registration.dart';
 import 'package:flutter_registration/src/auth_screen.dart';
 
+/// A screen for user registration.
 class RegistrationScreen extends StatefulWidget {
+  /// Constructs a [RegistrationScreen] object.
+  ///
+  /// [registrationOptions] specifies the registration options.
   const RegistrationScreen({
     required this.registrationOptions,
     Key? key,
   }) : super(key: key);
 
+  /// The registration options.
   final RegistrationOptions registrationOptions;
 
   @override
   RegistrationScreenState createState() => RegistrationScreenState();
 }
 
+/// The state for [RegistrationScreen].
 class RegistrationScreenState extends State<RegistrationScreen> {
   bool _isLoading = false;
 
+  /// Registers the user.
   Future<void> _register({
     required HashMap<String, dynamic> values,
     required void Function(int? pageToReturn) onError,

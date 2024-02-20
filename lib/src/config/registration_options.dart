@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_registration/flutter_registration.dart';
 
+/// A set of options for configuring the registration process in a Flutter application.
 class RegistrationOptions {
   RegistrationOptions({
     required this.registrationRepository,
@@ -23,21 +24,67 @@ class RegistrationOptions {
     this.loginButton,
   });
 
+  /// Translations for registration-related messages and prompts.
   final RegistrationTranslations registrationTranslations;
+
+  /// The steps involved in the registration process.
   final List<AuthStep> registrationSteps;
+
+  /// A function that handles errors during registration.
   final int? Function(String error)? onError;
+
+  /// A callback function executed after successful registration.
   final VoidCallback afterRegistration;
+
+  /// The repository responsible for registration.
   final RegistrationRepository registrationRepository;
+
+  /// A function for customizing the app bar displayed during registration.
   final AppBar Function(String title)? customAppbarBuilder;
+
+  /// A function for customizing the "Next" button.
   final Widget Function(Future<void> Function()? onPressed, String label,
       int step, bool enabled)? nextButtonBuilder;
+
+  /// A function for customizing the "Previous" button.
   final Widget? Function(VoidCallback onPressed, String label, int step)?
       previousButtonBuilder;
+
+  /// Specifies the alignment of buttons.
   final MainAxisAlignment? buttonMainAxisAlignment;
+
+  /// The background color of the registration screen.
   final Color? backgroundColor;
+
+  /// A custom widget for displaying the registration title.
   Widget? titleWidget;
+
+  /// A custom widget for displaying a login button.
   Widget? loginButton;
 
+  /// Generates default registration steps.
+  ///
+  /// [emailController] controller for email input.
+  ///
+  /// [pass1Controller] controller for first password input.
+  ///
+  /// [pass1Hidden] whether the first password field is initially hidden.
+  ///
+  /// [pass2Controller] controller for second password input.
+  ///
+  /// [pass2Hidden] whether the second password field is initially hidden.
+  ///
+  /// [passHideOnChange] function triggered when password visibility changes.
+  ///
+  /// [translations] translations for default registration messages and prompts.
+  ///
+  /// [titleBuilder] function for customizing step titles.
+  ///
+  /// [labelBuilder] function for customizing field labels.
+  ///
+  /// [textStyle] text style for input fields.
+  ///
+  /// [initialEmail] initial value for email input.
   static List<AuthStep> getDefaultSteps({
     TextEditingController? emailController,
     TextEditingController? pass1Controller,
@@ -61,19 +108,12 @@ class RegistrationOptions {
             name: 'email',
             textEditingController: emailController,
             value: initialEmail ?? '',
-            title: titleBuilder?.call(
-                  translations.defaultEmailTitle,
-                ) ??
+            title: titleBuilder?.call(translations.defaultEmailTitle) ??
                 Padding(
-                  padding: const EdgeInsets.only(
-                    top: 24.0,
-                    bottom: 12.0,
-                  ),
+                  padding: const EdgeInsets.only(top: 24.0, bottom: 12.0),
                   child: Text(
                     translations.defaultEmailTitle,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
             textFieldDecoration: InputDecoration(
@@ -99,19 +139,12 @@ class RegistrationOptions {
           AuthPassField(
             name: 'password1',
             textEditingController: pass1Controller,
-            title: titleBuilder?.call(
-                  translations.defaultPassword1Title,
-                ) ??
+            title: titleBuilder?.call(translations.defaultPassword1Title) ??
                 Padding(
-                  padding: const EdgeInsets.only(
-                    top: 24.0,
-                    bottom: 12.0,
-                  ),
+                  padding: const EdgeInsets.only(top: 24.0, bottom: 12.0),
                   child: Text(
                     translations.defaultPassword1Title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
             textFieldDecoration: InputDecoration(
@@ -131,19 +164,12 @@ class RegistrationOptions {
           AuthPassField(
             name: 'password2',
             textEditingController: pass2Controller,
-            title: titleBuilder?.call(
-                  translations.defaultPassword2Title,
-                ) ??
+            title: titleBuilder?.call(translations.defaultPassword2Title) ??
                 Padding(
-                  padding: const EdgeInsets.only(
-                    top: 24.0,
-                    bottom: 12.0,
-                  ),
+                  padding: const EdgeInsets.only(top: 24.0, bottom: 12.0),
                   child: Text(
                     translations.defaultPassword2Title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
             textFieldDecoration: InputDecoration(
