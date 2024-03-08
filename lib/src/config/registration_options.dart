@@ -12,6 +12,7 @@ class RegistrationOptions {
     required this.registrationRepository,
     required this.registrationSteps,
     required this.afterRegistration,
+    this.spacerConfig = const RegistrationSpacerConfig(),
     this.registrationTranslations = const RegistrationTranslations.empty(),
     this.onError,
     this.customAppbarBuilder,
@@ -23,6 +24,7 @@ class RegistrationOptions {
     this.loginButton,
   });
 
+  final RegistrationSpacerConfig spacerConfig;
   final RegistrationTranslations registrationTranslations;
   final List<AuthStep> registrationSteps;
   final int? Function(String error)? onError;

@@ -52,6 +52,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
     var translations = widget.registrationOptions.registrationTranslations;
 
     return AuthScreen(
+      registrationOptions: widget.registrationOptions,
       steps: widget.registrationOptions.registrationSteps,
       customAppBar: widget.registrationOptions.customAppbarBuilder?.call(
         translations.title,
