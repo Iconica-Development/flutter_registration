@@ -4,16 +4,22 @@ SPDX-FileCopyrightText: 2022 Iconica
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
+# 2.0.2
+
+- fix: authfields not showing and not being able to set space between widgets
+
 # 2.0.1
+
 - feat: added circular progress indicator while awaiting registration of user
 - feat: added alignment option for buttons
 
 # 2.0.0
+
 - feat(buttons): Added the possiblity to only have a next button by return zero on the previous button builder
 - feat: exposed input decoration in AuthTextField
 - feat: added title widget and login button builder
 - feat(bool): Add a boolean field. Can be used for accepting terms and conditions
-- feat(pass): Add dedicated password screen that manages state internally 
+- feat(pass): Add dedicated password screen that manages state internally
 - fix: Small refactor and brought back the normal alignment for the screens
 - fix: Fixed alignment and spacing when opening keyboard
 - feat: add auth drop down field
@@ -26,7 +32,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 # 1.2.0
 
-- feat: Added the ability to have an async register function so you can call it asynchronous. 
+- feat: Added the ability to have an async register function so you can call it asynchronous.
 
 # 1.1.0
 
@@ -43,7 +49,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 - fix: fix linter
 - fix: fix translations to English
 
-# 0.4.0 
+# 0.4.0
 
 - feat: Added the abilty to show and hide the passwords
 
