@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_registration/flutter_registration.dart';
 
 class RegistrationOptions {
-  RegistrationOptions({
+  const RegistrationOptions({
     required this.registrationRepository,
     required this.registrationSteps,
     required this.afterRegistration,
@@ -35,8 +35,8 @@ class RegistrationOptions {
       previousButtonBuilder;
   final MainAxisAlignment? buttonMainAxisAlignment;
   final Color? backgroundColor;
-  Widget? titleWidget;
-  Widget? loginButton;
+  final Widget? titleWidget;
+  final Widget? loginButton;
 
   static List<AuthStep> getDefaultSteps({
     TextEditingController? emailController,

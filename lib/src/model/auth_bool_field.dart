@@ -30,8 +30,9 @@ class AuthBoolField extends AuthField {
       onChanged: (v) {
         value = v;
         onChange?.call(value);
-        onValueChanged();
+        onValueChanged(v);
       },
+      initialValue: value,
       validator: (value) {
         for (var validator in validators) {
           var output = validator(value);

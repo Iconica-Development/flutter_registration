@@ -11,9 +11,7 @@ class AuthDropdownField extends AuthField {
     this.textStyle,
     this.icon = const Icon(Icons.keyboard_arrow_down),
     required super.value,
-  }) {
-    selectedValue = value ?? items.first;
-  }
+  });
 
   final List<String> items;
   final Function(String?) onChanged;
@@ -30,7 +28,7 @@ class AuthDropdownField extends AuthField {
       child: DropdownButtonFormField<String>(
         icon: icon,
         style: textStyle,
-        value: selectedValue,
+        value: value,
         decoration: dropdownDecoration,
         items: items.map((String value) {
           return DropdownMenuItem<String>(
@@ -41,7 +39,7 @@ class AuthDropdownField extends AuthField {
         onChanged: (newValue) {
           selectedValue = newValue;
           onChanged(newValue);
-          onValueChanged();
+          onValueChanged(newValue);
         },
         validator: (value) {
           if (validators.isNotEmpty) {

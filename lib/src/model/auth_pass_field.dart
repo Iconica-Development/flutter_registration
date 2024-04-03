@@ -9,10 +9,10 @@ import 'package:flutter_registration/flutter_registration.dart';
 class AuthPassField extends AuthField {
   AuthPassField({
     required super.name,
-    TextEditingController? textEditingController,
     super.title,
     super.validators = const [],
     super.value = '',
+    this.textEditingController,
     this.textStyle,
     this.onChange,
     this.iconSize,
@@ -24,6 +24,7 @@ class AuthPassField extends AuthField {
   final double? iconSize;
   final Function(String value)? onChange;
   final InputDecoration? textFieldDecoration;
+  final TextEditingController? textEditingController;
   final EdgeInsets padding;
 
   @override
@@ -33,11 +34,13 @@ class AuthPassField extends AuthField {
       child: FlutterFormInputPassword(
         style: textStyle,
         iconSize: iconSize ?? 24.0,
+        initialValue: textEditingController == null ? value : null,
         decoration: textFieldDecoration,
+        controller: textEditingController,
         onChanged: (v) {
           value = v;
           onChange?.call(value);
-          onValueChanged();
+          onValueChanged(v);
         },
         validator: (value) {
           for (var validator in validators) {

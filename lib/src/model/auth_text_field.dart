@@ -8,20 +8,17 @@ import 'package:flutter_registration/flutter_registration.dart';
 class AuthTextField extends AuthField {
   AuthTextField({
     required super.name,
-    TextEditingController? textEditingController,
     super.title,
     super.validators = const [],
     super.value = '',
+    this.textEditingController,
     this.textStyle,
     this.onChange,
     this.textFieldDecoration,
     this.padding = const EdgeInsets.all(8.0),
-  }) {
-    textController =
-        textEditingController ?? TextEditingController(text: value);
-  }
+  });
 
-  late TextEditingController textController;
+  final TextEditingController? textEditingController;
   final TextStyle? textStyle;
   final Function(String value)? onChange;
   final InputDecoration? textFieldDecoration;
@@ -34,11 +31,12 @@ class AuthTextField extends AuthField {
       child: TextFormField(
         style: textStyle,
         decoration: textFieldDecoration,
-        controller: textController,
+        controller: textEditingController,
+        initialValue: textEditingController == null ? value : null,
         onChanged: (v) {
           value = v;
           onChange?.call(value);
-          onValueChanged();
+          onValueChanged(v);
         },
         validator: (value) {
           for (var validator in validators) {
