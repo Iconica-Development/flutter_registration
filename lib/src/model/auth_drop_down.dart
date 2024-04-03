@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_registration/flutter_registration.dart';
 
+/// A field for capturing dropdown selections in a Flutter form.
+///
+/// Extends [AuthField].
 class AuthDropdownField extends AuthField {
+  /// Constructs an [AuthDropdownField] object.
   AuthDropdownField({
     required super.name,
     required this.items,
@@ -15,12 +19,25 @@ class AuthDropdownField extends AuthField {
     selectedValue = value ?? items.first;
   }
 
+  /// The list of items for the dropdown.
   final List<String> items;
+
+  /// A callback function triggered when the dropdown value changes.
   final Function(String?) onChanged;
+
+  /// The currently selected value in the dropdown.
   String? selectedValue;
+
+  /// The decoration for the dropdown.
   final InputDecoration? dropdownDecoration;
+
+  /// The padding around the dropdown.
   final EdgeInsets padding;
+
+  /// The text style for the dropdown.
   final TextStyle? textStyle;
+
+  /// The icon to be displayed with the dropdown.
   final Icon icon;
 
   @override
