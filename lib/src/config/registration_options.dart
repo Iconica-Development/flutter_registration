@@ -13,6 +13,10 @@ class RegistrationOptions {
     required this.registrationRepository,
     required this.registrationSteps,
     required this.afterRegistration,
+    this.titleFlex,
+    this.formFlex,
+    this.beforeTitleFlex,
+    this.afterTitleFlex,
     this.registrationTranslations = const RegistrationTranslations.empty(),
     this.onError,
     this.customAppbarBuilder,
@@ -61,6 +65,18 @@ class RegistrationOptions {
 
   /// A custom widget for displaying a login button.
   Widget? loginButton;
+
+  /// The number of flex units for the title.
+  final int? titleFlex;
+
+  /// The number of flex units for the form.
+  final int? formFlex;
+
+  /// The number of flex units for the buttons.
+  final int? beforeTitleFlex;
+
+  /// The number of flex units for the buttons.
+  final int? afterTitleFlex;
 
   /// Generates default registration steps.
   ///
