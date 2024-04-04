@@ -76,6 +76,10 @@ class RegistrationScreenState extends State<RegistrationScreen> {
       titleWidget: widget.registrationOptions.titleWidget,
       loginButton: widget.registrationOptions.loginButton,
       isLoading: _isLoading,
+      titleFlex: widget.registrationOptions.titleFlex,
+      formFlex: widget.registrationOptions.formFlex,
+      beforeTitleFlex: widget.registrationOptions.beforeTitleFlex,
+      afterTitleFlex: widget.registrationOptions.afterTitleFlex,
     );
   }
 }

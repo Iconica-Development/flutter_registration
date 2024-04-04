@@ -4,6 +4,9 @@ SPDX-FileCopyrightText: 2022 Iconica
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
 
+# 2.0.2
+- fix: fixed the issue with values not being saved when calling nextStep.
+
 # 2.0.1
 - feat: added circular progress indicator while awaiting registration of user
 - feat: added alignment option for buttons
