@@ -212,4 +212,147 @@ class RegistrationOptions {
       ),
     ];
   }
+
+  factory RegistrationOptions.defaults(
+          BuildContext context,
+          RegistrationRepository registrationRepository,
+          dynamic Function() afterRegistration) =>
+      RegistrationOptions(
+        nextButtonBuilder: (onPressed, label, step, enabled) => Padding(
+          padding: step > 0
+              ? const EdgeInsets.symmetric(horizontal: 2)
+              : const EdgeInsets.only(right: 16),
+          child: InkWell(
+            onTap: onPressed,
+            child: Container(
+              width: 180,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: const Color(
+                    0xff979797,
+                  ),
+                ),
+              ),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2.0),
+                  child: Text(
+                    label,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        previousButtonBuilder: (onPressed, label, step) => step > 0
+            ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                child: InkWell(
+                  onTap: onPressed,
+                  child: Container(
+                    width: 180,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: const Color(
+                          0xff979797,
+                        ),
+                      ),
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 2.0),
+                        child: Text(
+                          label,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            : const SizedBox.shrink(),
+        backgroundColor: const Color(0xffFAF9F6),
+        customAppbarBuilder: (title) => AppBar(
+          backgroundColor: Colors.transparent,
+          leading: const SizedBox.shrink(),
+        ),
+        registrationRepository: registrationRepository,
+        registrationSteps: [
+          AuthStep(
+            fields: [
+              AuthTextField(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                validators: [
+                  (email) => (email == null || (email as String).isEmpty)
+                      ? 'Please enter your email address.'
+                      : null,
+                  (email) =>
+                      RegExp(r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])""")
+                              .hasMatch(email!)
+                          ? null
+                          : 'Please enter a valid email address.',
+                ],
+                title: const Padding(
+                  padding: EdgeInsets.only(top: 150),
+                  child: Text(
+                    'Enter your e-mail',
+                    style: TextStyle(
+                      color: Color(0xff71C6D1),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 24,
+                    ),
+                  ),
+                ),
+                name: 'email',
+                textFieldDecoration: const InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                  labelText: 'Email address',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
+          ),
+          AuthStep(
+            fields: [
+              AuthPassField(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                validators: [
+                  (value) => (value == null || (value as String).isEmpty)
+                      ? 'Please enter a password.'
+                      : null,
+                ],
+                title: const Padding(
+                  padding: EdgeInsets.only(top: 150),
+                  child: Text(
+                    'Choose a password',
+                    style: TextStyle(
+                      color: Color(0xff71C6D1),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 24,
+                    ),
+                  ),
+                ),
+                name: 'password',
+                textFieldDecoration: const InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                  labelText: 'password',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ],
+          ),
+        ],
+        afterRegistration: () async => afterRegistration(),
+      );
 }

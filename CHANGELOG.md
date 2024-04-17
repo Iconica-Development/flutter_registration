@@ -3,6 +3,8 @@ SPDX-FileCopyrightText: 2022 Iconica
 
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
+# 2.0.3
+- feat: added default registrationOptions
 
 # 2.0.2
 - fix: fixed the issue with values not being saved when calling nextStep.
