@@ -35,7 +35,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
         _isLoading = true;
       });
 
-      var registered = await widget.registrationOptions.registrationRepository
+      var registered = await widget.registrationOptions.registrationRepository!
           .register(values);
 
       if (registered == null) {
@@ -59,7 +59,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
     var translations = widget.registrationOptions.registrationTranslations;
 
     return AuthScreen(
-      steps: widget.registrationOptions.registrationSteps,
+      steps: widget.registrationOptions.steps,
       customAppBar: widget.registrationOptions.customAppbarBuilder?.call(
         translations.title,
       ),

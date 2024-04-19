@@ -6,12 +6,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_registration/flutter_registration.dart';
+import 'package:flutter_registration/src/config/example_registration_repository.dart';
 
 /// A set of options for configuring the registration process in a Flutter application.
 class RegistrationOptions {
   RegistrationOptions({
-    required this.registrationRepository,
-    required this.registrationSteps,
+    this.registrationRepository,
+    this.registrationSteps,
     required this.afterRegistration,
     this.titleFlex,
     this.formFlex,
@@ -19,20 +20,29 @@ class RegistrationOptions {
     this.afterTitleFlex,
     this.registrationTranslations = const RegistrationTranslations.empty(),
     this.onError,
-    this.customAppbarBuilder,
+    this.customAppbarBuilder = _createCustomAppBar,
     this.nextButtonBuilder,
     this.previousButtonBuilder,
     this.buttonMainAxisAlignment,
     this.backgroundColor,
     this.titleWidget,
     this.loginButton,
-  });
+  }) {
+    if (registrationSteps == null || registrationSteps!.isEmpty) {
+      steps = RegistrationOptions.getDefaultSteps();
+    } else {
+      steps = registrationSteps!;
+    }
+    registrationRepository ??= ExampleRegistrationRepository();
+  }
 
   /// Translations for registration-related messages and prompts.
   final RegistrationTranslations registrationTranslations;
 
   /// The steps involved in the registration process.
-  final List<AuthStep> registrationSteps;
+  final List<AuthStep>? registrationSteps;
+
+  List<AuthStep> steps = [];
 
   /// A function that handles errors during registration.
   final int? Function(String error)? onError;
@@ -41,7 +51,7 @@ class RegistrationOptions {
   final VoidCallback afterRegistration;
 
   /// The repository responsible for registration.
-  final RegistrationRepository registrationRepository;
+  RegistrationRepository? registrationRepository;
 
   /// A function for customizing the app bar displayed during registration.
   final AppBar Function(String title)? customAppbarBuilder;
@@ -61,10 +71,10 @@ class RegistrationOptions {
   final Color? backgroundColor;
 
   /// A custom widget for displaying the registration title.
-  Widget? titleWidget;
+  final Widget? titleWidget;
 
   /// A custom widget for displaying a login button.
-  Widget? loginButton;
+  final Widget? loginButton;
 
   /// The number of flex units for the title.
   final int? titleFlex;
@@ -103,10 +113,8 @@ class RegistrationOptions {
   /// [initialEmail] initial value for email input.
   static List<AuthStep> getDefaultSteps({
     TextEditingController? emailController,
-    TextEditingController? pass1Controller,
-    bool pass1Hidden = true,
-    TextEditingController? pass2Controller,
-    bool pass2Hidden = true,
+    TextEditingController? passController,
+    bool passHidden = true,
     Function(bool mainPass, bool value)? passHideOnChange,
     RegistrationTranslations translations =
         const RegistrationTranslations.empty(),
@@ -115,8 +123,6 @@ class RegistrationOptions {
     TextStyle? textStyle,
     String? initialEmail,
   }) {
-    var password1 = '';
-
     return [
       AuthStep(
         fields: [
@@ -125,18 +131,25 @@ class RegistrationOptions {
             textEditingController: emailController,
             value: initialEmail ?? '',
             title: titleBuilder?.call(translations.defaultEmailTitle) ??
-                Padding(
-                  padding: const EdgeInsets.only(top: 24.0, bottom: 12.0),
+                const Padding(
+                  padding: EdgeInsets.only(top: 180),
                   child: Text(
-                    translations.defaultEmailTitle,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    'Enter your e-mail',
+                    style: TextStyle(
+                      color: Color(0xff71C6D1),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 24,
+                    ),
                   ),
                 ),
             textFieldDecoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
               label: labelBuilder?.call(translations.defaultEmailLabel),
               hintText: translations.defaultEmailHint,
+              border: const OutlineInputBorder(),
             ),
             textStyle: textStyle,
+            padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
             validators: [
               (email) => (email == null || email.isEmpty)
                   ? translations.defaultEmailEmpty
@@ -147,212 +160,49 @@ class RegistrationOptions {
                       ? null
                       : translations.defaultEmailValidatorMessage,
             ],
-          )
+          ),
         ],
       ),
       AuthStep(
         fields: [
           AuthPassField(
-            name: 'password1',
-            textEditingController: pass1Controller,
-            title: titleBuilder?.call(translations.defaultPassword1Title) ??
+            name: 'password',
+            textEditingController: passController,
+            title: titleBuilder?.call(translations.defaultPasswordTitle) ??
                 Padding(
-                  padding: const EdgeInsets.only(top: 24.0, bottom: 12.0),
+                  padding: const EdgeInsets.only(top: 180),
                   child: Text(
-                    translations.defaultPassword1Title,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    translations.defaultPasswordTitle,
+                    style: const TextStyle(
+                      color: Color(0xff71C6D1),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 24,
+                    ),
                   ),
                 ),
             textFieldDecoration: InputDecoration(
-              label: labelBuilder?.call(translations.defaultPassword1Label),
-              hintText: translations.defaultPassword1Hint,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+              label: labelBuilder?.call(translations.defaultPasswordLabel),
+              hintText: translations.defaultPasswordHint,
+              border: const OutlineInputBorder(),
             ),
+            padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
             textStyle: textStyle,
             validators: [
               (value) => (value == null || value.isEmpty)
-                  ? translations.defaultPassword1ValidatorMessage
+                  ? translations.defaultPasswordValidatorMessage
                   : null,
-            ],
-            onChange: (value) {
-              password1 = value;
-            },
-          ),
-          AuthPassField(
-            name: 'password2',
-            textEditingController: pass2Controller,
-            title: titleBuilder?.call(translations.defaultPassword2Title) ??
-                Padding(
-                  padding: const EdgeInsets.only(top: 24.0, bottom: 12.0),
-                  child: Text(
-                    translations.defaultPassword2Title,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-            textFieldDecoration: InputDecoration(
-              label: labelBuilder?.call(translations.defaultPassword2Label),
-              hintText: translations.defaultPassword2Hint,
-            ),
-            textStyle: textStyle,
-            validators: [
-              (value) {
-                if (pass1Controller != null) {
-                  if (value != pass1Controller.value.text) {
-                    return translations.defaultPassword2ValidatorMessage;
-                  }
-                } else {
-                  if (value != password1) {
-                    return translations.defaultPassword2ValidatorMessage;
-                  }
-                }
-                return null;
-              }
             ],
           ),
         ],
       ),
     ];
   }
+}
 
-  factory RegistrationOptions.defaults(
-          BuildContext context,
-          RegistrationRepository registrationRepository,
-          dynamic Function() afterRegistration) =>
-      RegistrationOptions(
-        nextButtonBuilder: (onPressed, label, step, enabled) => Padding(
-          padding: step > 0
-              ? const EdgeInsets.symmetric(horizontal: 2)
-              : const EdgeInsets.only(right: 16),
-          child: InkWell(
-            onTap: onPressed,
-            child: Container(
-              width: 180,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: const Color(
-                    0xff979797,
-                  ),
-                ),
-              ),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2.0),
-                  child: Text(
-                    label,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        previousButtonBuilder: (onPressed, label, step) => step > 0
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2),
-                child: InkWell(
-                  onTap: onPressed,
-                  child: Container(
-                    width: 180,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: const Color(
-                          0xff979797,
-                        ),
-                      ),
-                    ),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2.0),
-                        child: Text(
-                          label,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            : const SizedBox.shrink(),
-        backgroundColor: const Color(0xffFAF9F6),
-        customAppbarBuilder: (title) => AppBar(
-          backgroundColor: Colors.transparent,
-          leading: const SizedBox.shrink(),
-        ),
-        registrationRepository: registrationRepository,
-        registrationSteps: [
-          AuthStep(
-            fields: [
-              AuthTextField(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
-                validators: [
-                  (email) => (email == null || (email as String).isEmpty)
-                      ? 'Please enter your email address.'
-                      : null,
-                  (email) =>
-                      RegExp(r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])""")
-                              .hasMatch(email!)
-                          ? null
-                          : 'Please enter a valid email address.',
-                ],
-                title: const Padding(
-                  padding: EdgeInsets.only(top: 150),
-                  child: Text(
-                    'Enter your e-mail',
-                    style: TextStyle(
-                      color: Color(0xff71C6D1),
-                      fontWeight: FontWeight.w800,
-                      fontSize: 24,
-                    ),
-                  ),
-                ),
-                name: 'email',
-                textFieldDecoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                  labelText: 'Email address',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ],
-          ),
-          AuthStep(
-            fields: [
-              AuthPassField(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
-                validators: [
-                  (value) => (value == null || (value as String).isEmpty)
-                      ? 'Please enter a password.'
-                      : null,
-                ],
-                title: const Padding(
-                  padding: EdgeInsets.only(top: 150),
-                  child: Text(
-                    'Choose a password',
-                    style: TextStyle(
-                      color: Color(0xff71C6D1),
-                      fontWeight: FontWeight.w800,
-                      fontSize: 24,
-                    ),
-                  ),
-                ),
-                name: 'password',
-                textFieldDecoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                  labelText: 'password',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ],
-          ),
-        ],
-        afterRegistration: () async => afterRegistration(),
-      );
+AppBar _createCustomAppBar(String title) {
+  return AppBar(
+    title: Text(title),
+    backgroundColor: const Color(0xffFAF9F6),
+  );
 }
