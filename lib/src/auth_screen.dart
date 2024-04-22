@@ -65,6 +65,7 @@ class AuthScreen extends StatefulWidget {
     this.beforeTitleFlex,
     this.afterTitleFlex,
     this.isLoading = false,
+    this.maxFormWidth,
     Key? key,
   })  : assert(steps.length > 0, 'At least one step is required'),
         super(key: key);
@@ -92,6 +93,7 @@ class AuthScreen extends StatefulWidget {
   final int? beforeTitleFlex;
   final int? afterTitleFlex;
   final bool isLoading;
+  final double? maxFormWidth;
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -234,18 +236,24 @@ class _AuthScreenState extends State<AuthScreen> {
                           Expanded(
                             flex: widget.formFlex ?? 3,
                             child: Align(
-                              child: Column(
-                                children: [
-                                  for (AuthField field
-                                      in widget.steps[i].fields) ...[
-                                    if (field.title != null) ...[
-                                      field.title!,
-                                    ],
-                                    field.build(context, () {
-                                      _validate(i);
-                                    })
-                                  ]
-                                ],
+                              alignment: Alignment.topCenter,
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxWidth: widget.maxFormWidth ?? 300,
+                                ),
+                                child: Column(
+                                  children: [
+                                    for (AuthField field
+                                        in widget.steps[i].fields) ...[
+                                      if (field.title != null) ...[
+                                        field.title!,
+                                      ],
+                                      field.build(context, () {
+                                        _validate(i);
+                                      })
+                                    ]
+                                  ],
+                                ),
                               ),
                             ),
                           ),
