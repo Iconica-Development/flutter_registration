@@ -80,6 +80,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
       formFlex: widget.registrationOptions.formFlex,
       beforeTitleFlex: widget.registrationOptions.beforeTitleFlex,
       afterTitleFlex: widget.registrationOptions.afterTitleFlex,
+      maxFormWidth: widget.registrationOptions.maxFormWidth,
     );
   }
 }

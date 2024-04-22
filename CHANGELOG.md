@@ -3,6 +3,10 @@ SPDX-FileCopyrightText: 2022 Iconica
 
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
+
+# 2.0.4
+- feat: added maxFormWidth to AuthScreen
+
 # 2.0.3
 - feat: added default registrationOptions
 

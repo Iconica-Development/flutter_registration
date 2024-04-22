@@ -27,6 +27,7 @@ class RegistrationOptions {
     this.backgroundColor,
     this.titleWidget,
     this.loginButton,
+    this.maxFormWidth,
   }) {
     if (registrationSteps == null || registrationSteps!.isEmpty) {
       steps = RegistrationOptions.getDefaultSteps();
@@ -87,6 +88,9 @@ class RegistrationOptions {
 
   /// The number of flex units for the buttons.
   final int? afterTitleFlex;
+
+  /// The maximum width of the form. Defaults to 300.
+  final double? maxFormWidth;
 
   /// Generates default registration steps.
   ///
@@ -149,7 +153,7 @@ class RegistrationOptions {
               border: const OutlineInputBorder(),
             ),
             textStyle: textStyle,
-            padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+            padding: const EdgeInsets.symmetric(vertical: 20),
             validators: [
               (email) => (email == null || email.isEmpty)
                   ? translations.defaultEmailEmpty
@@ -186,7 +190,7 @@ class RegistrationOptions {
               hintText: translations.defaultPasswordHint,
               border: const OutlineInputBorder(),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+            padding: const EdgeInsets.symmetric(vertical: 20),
             textStyle: textStyle,
             validators: [
               (value) => (value == null || value.isEmpty)
