@@ -3,6 +3,8 @@ SPDX-FileCopyrightText: 2022 Iconica
 
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
+# 2.1.0
+- updated flutter_input_library to 3.2.1
 
 # 2.0.4
 - feat: added maxFormWidth to AuthScreen
