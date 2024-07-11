@@ -7,17 +7,16 @@ description: A Flutter Registration package
 version: 2.0.4
 repository: https://github.com/Iconica-Development/flutter_registration
 
-publish_to: none
+publish_to: https://forgejo.internal.iconica.nl/api/packages/internal/pub
 
 environment:
-  sdk: ">=2.18.0 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
   flutter_input_library:
-    git:
-      url: https://github.com/Iconica-Development/flutter_input_library
-      ref: 3.1.0
+    hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub
+    version: ">=3.1.0 <4.0.0"
 
   flutter:
     sdk: flutter
