@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 
-import 'package:flutter/material.dart';
-import 'package:flutter_input_library/flutter_input_library.dart';
-import 'package:flutter_registration/flutter_registration.dart';
+import "package:flutter/material.dart";
+import "package:flutter_input_library/flutter_input_library.dart";
+import "package:flutter_registration/flutter_registration.dart";
 
 /// A field for capturing boolean values in a Flutter form.
 ///
@@ -22,11 +22,14 @@ class AuthBoolField extends AuthField {
   ///
   /// [value] specifies the initial value of the field (default is false).
   ///
-  /// [leftWidget] is a widget to be displayed on the left side of the boolean widget.
+  /// [leftWidget] is a widget to be displayed on the
+  /// left side of the boolean widget.
   ///
-  /// [rightWidget] is a widget to be displayed on the right side of the boolean widget.
+  /// [rightWidget] is a widget to be displayed on the
+  /// right side of the boolean widget.
   ///
-  /// [onChange] is a callback function triggered when the value of the field changes.
+  /// [onChange] is a callback function triggered when
+  /// the value of the field changes.
   AuthBoolField({
     required super.name,
     required this.widgetType,
@@ -38,31 +41,38 @@ class AuthBoolField extends AuthField {
     this.onChange,
   });
 
+  /// A widget to be displayed on the left side of the boolean widget.
   final Widget? leftWidget;
+
+  /// A widget to be displayed on the right side of the boolean widget.
   final Widget? rightWidget;
+
+  /// The type of boolean widget to use.
   final BoolWidgetType widgetType;
+
+  /// A callback function triggered when the value of the field changes.
   final Function(String value)? onChange;
 
   @override
-  Widget build(BuildContext context, Function onValueChanged) {
-    return FlutterFormInputBool(
-      widgetType: widgetType,
-      onChanged: (v) {
-        value = v;
-        onChange?.call(value);
-        onValueChanged();
-      },
-      validator: (value) {
-        for (var validator in validators) {
-          var output = validator(value);
-          if (output != null) {
-            return output;
+  Widget build(BuildContext context, Function onValueChanged) =>
+      FlutterFormInputBool(
+        widgetType: widgetType,
+        onChanged: (v) {
+          value = v;
+          onChange?.call(value);
+          // ignore: avoid_dynamic_calls
+          onValueChanged();
+        },
+        validator: (value) {
+          for (var validator in validators) {
+            var output = validator(value);
+            if (output != null) {
+              return output;
+            }
           }
-        }
-        return null;
-      },
-      leftWidget: leftWidget,
-      rightWidget: rightWidget,
-    );
-  }
+          return null;
+        },
+        leftWidget: leftWidget,
+        rightWidget: rightWidget,
+      );
 }

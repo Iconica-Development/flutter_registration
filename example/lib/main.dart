@@ -21,7 +21,7 @@ void main() {
 }
 
 class FlutterRegistrationDemo extends StatefulWidget {
-  const FlutterRegistrationDemo({Key? key}) : super(key: key);
+  const FlutterRegistrationDemo({super.key});
 
   @override
   State<FlutterRegistrationDemo> createState() =>
@@ -86,8 +86,7 @@ class _FlutterRegistrationDemoState extends State<FlutterRegistrationDemo> {
 }
 
 class ProtectedScreen extends StatelessWidget {
-  const ProtectedScreen({Key? key}) : super(key: key);
-
+  const ProtectedScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
