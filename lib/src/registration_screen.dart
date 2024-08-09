@@ -1,8 +1,8 @@
-import 'dart:collection';
+import "dart:collection";
 
-import 'package:flutter/material.dart';
-import 'package:flutter_registration/flutter_registration.dart';
-import 'package:flutter_registration/src/auth_screen.dart';
+import "package:flutter/material.dart";
+import "package:flutter_registration/flutter_registration.dart";
+import "package:flutter_registration/src/auth_screen.dart";
 
 /// A screen for user registration.
 class RegistrationScreen extends StatefulWidget {
@@ -11,8 +11,8 @@ class RegistrationScreen extends StatefulWidget {
   /// [registrationOptions] specifies the registration options.
   const RegistrationScreen({
     required this.registrationOptions,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   /// The registration options.
   final RegistrationOptions registrationOptions;
@@ -23,17 +23,13 @@ class RegistrationScreen extends StatefulWidget {
 
 /// The state for [RegistrationScreen].
 class RegistrationScreenState extends State<RegistrationScreen> {
-  bool _isLoading = false;
-
   /// Registers the user.
   Future<void> _register({
     required HashMap<String, dynamic> values,
     required void Function(int? pageToReturn) onError,
   }) async {
     try {
-      setState(() {
-        _isLoading = true;
-      });
+      await widget.registrationOptions.beforeRegistration?.call();
 
       var registered = await widget.registrationOptions.registrationRepository!
           .register(values);
@@ -45,12 +41,8 @@ class RegistrationScreenState extends State<RegistrationScreen> {
 
         onError(pageToReturn);
       }
-    } catch (e) {
-      onError(0);
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
+    } on Exception catch (_) {
+      onError(null);
     }
   }
 
@@ -75,7 +67,6 @@ class RegistrationScreenState extends State<RegistrationScreen> {
       customBackgroundColor: widget.registrationOptions.backgroundColor,
       titleWidget: widget.registrationOptions.titleWidget,
       loginButton: widget.registrationOptions.loginButton,
-      isLoading: _isLoading,
       titleFlex: widget.registrationOptions.titleFlex,
       formFlex: widget.registrationOptions.formFlex,
       beforeTitleFlex: widget.registrationOptions.beforeTitleFlex,

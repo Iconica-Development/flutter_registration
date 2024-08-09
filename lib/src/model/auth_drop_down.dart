@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_registration/flutter_registration.dart';
+import "package:flutter/material.dart";
+import "package:flutter_registration/flutter_registration.dart";
 
 /// A field for capturing dropdown selections in a Flutter form.
 ///
@@ -10,11 +10,11 @@ class AuthDropdownField extends AuthField {
     required super.name,
     required this.items,
     required this.onChanged,
+    required super.value,
     this.dropdownDecoration,
     this.padding = const EdgeInsets.all(8.0),
     this.textStyle,
     this.icon = const Icon(Icons.keyboard_arrow_down),
-    required super.value,
   }) {
     selectedValue = value ?? items.first;
   }
@@ -41,37 +41,38 @@ class AuthDropdownField extends AuthField {
   final Icon icon;
 
   @override
-  Widget build(BuildContext context, Function onValueChanged) {
-    return Padding(
-      padding: padding,
-      child: DropdownButtonFormField<String>(
-        icon: icon,
-        style: textStyle,
-        value: selectedValue,
-        decoration: dropdownDecoration,
-        items: items.map((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-        onChanged: (newValue) {
-          selectedValue = newValue;
-          onChanged(newValue);
-          onValueChanged();
-        },
-        validator: (value) {
-          if (validators.isNotEmpty) {
-            for (var validator in validators) {
-              var output = validator(value);
-              if (output != null) {
-                return output;
+  Widget build(BuildContext context, Function onValueChanged) => Padding(
+        padding: padding,
+        child: DropdownButtonFormField<String>(
+          icon: icon,
+          style: textStyle,
+          value: selectedValue,
+          decoration: dropdownDecoration,
+          items: items
+              .map(
+                (String value) => DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                ),
+              )
+              .toList(),
+          onChanged: (newValue) {
+            selectedValue = newValue;
+            onChanged(newValue);
+            // ignore: avoid_dynamic_calls
+            onValueChanged();
+          },
+          validator: (value) {
+            if (validators.isNotEmpty) {
+              for (var validator in validators) {
+                var output = validator(value);
+                if (output != null) {
+                  return output;
+                }
               }
             }
-          }
-          return null;
-        },
-      ),
-    );
-  }
+            return null;
+          },
+        ),
+      );
 }

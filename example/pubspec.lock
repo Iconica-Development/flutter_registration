@@ -66,10 +66,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_input_library
-      sha256: "346823caa633d47ad21d8ce92f3c2ed460619fd5447999c35cb171da5e86af06"
+      sha256: db8d9d57c31f166ed7c4ec3d060d18891533c57877a30c6c2668231efa1a44f8
       url: "https://forgejo.internal.iconica.nl/api/packages/internal/pub/"
     source: hosted
-    version: "3.3.1"
+    version: "3.6.0"
   flutter_lints:
     dependency: "direct dev"
     description:

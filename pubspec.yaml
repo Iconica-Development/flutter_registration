@@ -4,7 +4,7 @@
 
 name: flutter_registration
 description: A Flutter Registration package
-version: 2.0.4
+version: 3.0.0
 repository: https://github.com/Iconica-Development/flutter_registration
 
 publish_to: https://forgejo.internal.iconica.nl/api/packages/internal/pub
@@ -16,7 +16,7 @@ environment:
 dependencies:
   flutter_input_library:
     hosted: https://forgejo.internal.iconica.nl/api/packages/internal/pub
-    version: ">=3.1.0 <4.0.0"
+    version: ^3.6.0
 
   flutter:
     sdk: flutter
@@ -26,6 +26,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_iconica_analysis:
+    git:
+      url: https://github.com/Iconica-Development/flutter_iconica_analysis
+      ref: 7.0.0
 
 flutter:

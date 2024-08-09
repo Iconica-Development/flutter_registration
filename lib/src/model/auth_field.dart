@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 /// An abstract class representing a field in a Flutter form.
 ///
@@ -14,11 +14,13 @@ abstract class AuthField<T> {
   ///
   /// [value] specifies the initial value of the field.
   ///
-  /// [onValueChanged] is a callback function triggered when the value of the field changes (optional).
+  /// [onValueChanged] is a callback function triggered when the
+  /// value of the field changes (optional).
   ///
   /// [title] specifies the title widget of the field (optional).
   ///
-  /// [validators] defines a list of validation functions for the field (optional).
+  /// [validators] defines a list of validation
+  /// functions for the field (optional).
   AuthField({
     required this.name,
     required this.value,
@@ -46,6 +48,7 @@ abstract class AuthField<T> {
   ///
   /// [context] The build context.
   ///
-  /// [onValueChanged] A function to be called when the value of the field changes.
+  /// [onValueChanged] A function to be called when
+  /// the value of the field changes.
   Widget build(BuildContext context, Function onValueChanged);
 }

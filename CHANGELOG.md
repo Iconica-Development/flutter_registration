@@ -3,7 +3,10 @@ SPDX-FileCopyrightText: 2022 Iconica
 
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
-
+# 3.0.0
+- fix: fixed the issue with the scrollController when the `pageToReturnTo` is null.
+- feat: Added default styling and theme.
+- feat: Added Iconica linter.
 # 2.0.4
 - feat: added maxFormWidth to AuthScreen
 

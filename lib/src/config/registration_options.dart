@@ -2,18 +2,20 @@
 //
 // SPDX-License-Identifier: BSD-3-Clause
 
-import 'dart:async';
+import "dart:async";
 
-import 'package:flutter/material.dart';
-import 'package:flutter_registration/flutter_registration.dart';
-import 'package:flutter_registration/src/config/example_registration_repository.dart';
+import "package:flutter/material.dart";
+import "package:flutter_registration/flutter_registration.dart";
+import "package:flutter_registration/src/config/example_registration_repository.dart";
 
-/// A set of options for configuring the registration process in a Flutter application.
+/// A set of options for configuring the
+/// registration process in a Flutter application.
 class RegistrationOptions {
+  /// Registration options Constructor
   RegistrationOptions({
+    required this.afterRegistration,
     this.registrationRepository,
     this.registrationSteps,
-    required this.afterRegistration,
     this.titleFlex,
     this.formFlex,
     this.beforeTitleFlex,
@@ -28,6 +30,7 @@ class RegistrationOptions {
     this.titleWidget,
     this.loginButton,
     this.maxFormWidth,
+    this.beforeRegistration,
   }) {
     if (registrationSteps == null || registrationSteps!.isEmpty) {
       steps = RegistrationOptions.getDefaultSteps();
@@ -43,6 +46,7 @@ class RegistrationOptions {
   /// The steps involved in the registration process.
   final List<AuthStep>? registrationSteps;
 
+  /// The steps involved in the registration process.
   List<AuthStep> steps = [];
 
   /// A function that handles errors during registration.
@@ -58,8 +62,13 @@ class RegistrationOptions {
   final AppBar Function(String title)? customAppbarBuilder;
 
   /// A function for customizing the "Next" button.
-  final Widget Function(Future<void> Function()? onPressed, String label,
-      int step, bool enabled)? nextButtonBuilder;
+  final Widget Function(
+    Future<void> Function()? onPressed,
+    String label,
+    int step,
+    // ignore: avoid_positional_boolean_parameters
+    bool enabled,
+  )? nextButtonBuilder;
 
   /// A function for customizing the "Previous" button.
   final Widget? Function(VoidCallback onPressed, String label, int step)?
@@ -92,6 +101,9 @@ class RegistrationOptions {
   /// The maximum width of the form. Defaults to 300.
   final double? maxFormWidth;
 
+  /// This function gets called before the user gets registered.
+  final Future<void> Function()? beforeRegistration;
+
   /// Generates default registration steps.
   ///
   /// [emailController] controller for email input.
@@ -119,94 +131,98 @@ class RegistrationOptions {
     TextEditingController? emailController,
     TextEditingController? passController,
     bool passHidden = true,
+    // ignore: avoid_positional_boolean_parameters
     Function(bool mainPass, bool value)? passHideOnChange,
     RegistrationTranslations translations =
         const RegistrationTranslations.empty(),
     Function(String title)? titleBuilder,
     Function(String label)? labelBuilder,
     TextStyle? textStyle,
+    TextStyle? hintStyle,
     String? initialEmail,
-  }) {
-    return [
-      AuthStep(
-        fields: [
-          AuthTextField(
-            name: 'email',
-            textEditingController: emailController,
-            value: initialEmail ?? '',
-            title: titleBuilder?.call(translations.defaultEmailTitle) ??
-                const Padding(
-                  padding: EdgeInsets.only(top: 180),
-                  child: Text(
-                    'Enter your e-mail',
-                    style: TextStyle(
-                      color: Color(0xff71C6D1),
-                      fontWeight: FontWeight.w800,
-                      fontSize: 24,
+  }) =>
+      [
+        AuthStep(
+          fields: [
+            AuthTextField(
+              name: "email",
+              textEditingController: emailController,
+              value: initialEmail ?? "",
+              title: titleBuilder?.call(translations.defaultEmailTitle) ??
+                  Padding(
+                    padding: const EdgeInsets.only(top: 180),
+                    child: Text(
+                      translations.defaultEmailTitle,
                     ),
                   ),
-                ),
-            textFieldDecoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-              label: labelBuilder?.call(translations.defaultEmailLabel),
-              hintText: translations.defaultEmailHint,
-              border: const OutlineInputBorder(),
+              textInputType: TextInputType.emailAddress,
+              textFieldDecoration: InputDecoration(
+                hintStyle: hintStyle,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                label: labelBuilder?.call(translations.defaultEmailLabel),
+                hintText: translations.defaultEmailHint,
+                border: const OutlineInputBorder(),
+                focusedBorder: const OutlineInputBorder(),
+              ),
+              textStyle: textStyle,
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              validators: [
+                // ignore: avoid_dynamic_calls
+                (email) => (email == null || email.isEmpty)
+                    ? translations.defaultEmailEmpty
+                    : null,
+                (email) =>
+                    RegExp(r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])""")
+                            .hasMatch(email!)
+                        ? null
+                        : translations.defaultEmailValidatorMessage,
+              ],
             ),
-            textStyle: textStyle,
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            validators: [
-              (email) => (email == null || email.isEmpty)
-                  ? translations.defaultEmailEmpty
-                  : null,
-              (email) =>
-                  RegExp(r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])""")
-                          .hasMatch(email!)
-                      ? null
-                      : translations.defaultEmailValidatorMessage,
-            ],
-          ),
-        ],
-      ),
-      AuthStep(
-        fields: [
-          AuthPassField(
-            name: 'password',
-            textEditingController: passController,
-            title: titleBuilder?.call(translations.defaultPasswordTitle) ??
-                Padding(
-                  padding: const EdgeInsets.only(top: 180),
-                  child: Text(
-                    translations.defaultPasswordTitle,
-                    style: const TextStyle(
-                      color: Color(0xff71C6D1),
-                      fontWeight: FontWeight.w800,
-                      fontSize: 24,
+          ],
+        ),
+        AuthStep(
+          fields: [
+            AuthPassField(
+              name: "password",
+              textEditingController: passController,
+              title: titleBuilder?.call(translations.defaultPasswordTitle) ??
+                  Padding(
+                    padding: const EdgeInsets.only(top: 180),
+                    child: Text(
+                      translations.defaultPasswordTitle,
                     ),
                   ),
-                ),
-            textFieldDecoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-              label: labelBuilder?.call(translations.defaultPasswordLabel),
-              hintText: translations.defaultPasswordHint,
-              border: const OutlineInputBorder(),
+              textFieldDecoration: InputDecoration(
+                hintStyle: hintStyle,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                label: labelBuilder?.call(translations.defaultPasswordLabel),
+                hintText: translations.defaultPasswordHint,
+                border: const OutlineInputBorder(),
+                focusedBorder: const OutlineInputBorder(),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              textStyle: textStyle,
+              validators: [
+                (value) {
+                  // ignore: avoid_dynamic_calls
+                  if (value == null || value.isEmpty) {
+                    return translations.defaultPasswordValidatorMessage;
+                  }
+                  // ignore: avoid_dynamic_calls
+                  if (value.length < 6) {
+                    return translations.defaultPasswordToShortValidatorMessage;
+                  }
+                  return null;
+                },
+              ],
             ),
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            textStyle: textStyle,
-            validators: [
-              (value) => (value == null || value.isEmpty)
-                  ? translations.defaultPasswordValidatorMessage
-                  : null,
-            ],
-          ),
-        ],
-      ),
-    ];
-  }
+          ],
+        ),
+      ];
 }
 
-AppBar _createCustomAppBar(String title) {
-  return AppBar(
-    title: Text(title),
-    backgroundColor: const Color(0xffFAF9F6),
-  );
-}
+AppBar _createCustomAppBar(String title) => AppBar(
+      iconTheme: const IconThemeData(color: Colors.black, size: 16),
+      title: Text(title),
+      backgroundColor: Colors.transparent,
+    );
