@@ -3,6 +3,11 @@ SPDX-FileCopyrightText: 2022 Iconica
 
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
+# 3.0.1
+
+- Fix: Added bottom button padding.
+- Fix: Default validation message for password field.
+
 # 3.0.0
 - fix: fixed the issue with the scrollController when the `pageToReturnTo` is null.
 - feat: Added default styling and theme.
