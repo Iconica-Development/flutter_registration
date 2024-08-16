@@ -306,8 +306,10 @@ class _AuthScreenState extends State<AuthScreen> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
+                            padding: const EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                              bottom: 40,
                             ),
                             child: Row(
                               mainAxisAlignment: widget.steps.first !=

@@ -39,7 +39,7 @@ class RegistrationTranslations {
         defaultPasswordTitle = "choose a password",
         defaultPasswordLabel = "",
         defaultPasswordHint = "Password",
-        defaultPasswordValidatorMessage = "Enter a valid password",
+        defaultPasswordValidatorMessage = "Please enter a valid password",
         defaultPasswordToShortValidatorMessage =
             "Password needs to be at least 6 characters long";
 
